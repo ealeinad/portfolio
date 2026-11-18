@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daniela Valdez — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Sans:wght@400;500;600;700&family=Gochi+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f2ea;
+  --dot:rgba(120,90,60,.18);
+  --ink:#24201c;
+  --muted:#7a7068;
+  --clay:#c8643f;
+  --clay-soft:#f0c9b5;
+  --sage:#8fa98a;
+  --sage-soft:#d6e3cf;
+  --butter:#fbe7a3;
+  --chrome:rgba(255,252,247,.78);
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'DM Sans',system-ui,-apple-system,sans-serif;
+  --hand:'Gochi Hand',cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:var(--clay)}
+
+/* ---------- top bar ---------- */
+.topbar{position:fixed;inset:0 0 auto;height:32px;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:0 16px;font-size:13px;background:var(--chrome);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(60,40,20,.08)}
+.topbar .side{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.logo{width:18px;height:18px;border-radius:50%;background:conic-gradient(var(--clay) 0 50%,var(--sage) 0 100%);margin-right:8px}
+.tb-link{padding:3px 8px;border-radius:5px}
+.tb-link:hover{background:rgba(60,40,20,.07)}
+.tb-link.name{font-weight:700}
+.tb-meta{color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ---------- desktop ---------- */
+.desk{position:fixed;inset:32px 0 0;overflow:hidden;
+  background-color:var(--paper);
+  background-image:radial-gradient(var(--dot) 1.2px,transparent 1.3px);
+  background-size:20px 20px}
+.desk::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 80% at 50% 45%,transparent 55%,rgba(200,100,63,.07))}
+
+.hero{position:absolute;left:50%;top:43%;transform:translate(-50%,-50%);text-align:center;user-select:none;z-index:1}
+.hero .hi{font-family:var(--hand);font-size:clamp(22px,2.4vw,30px);color:var(--clay);transform:rotate(-3deg);display:inline-block;margin-bottom:-4px}
+.hero h1{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(58px,10vw,140px);line-height:.95;letter-spacing:-.02em;white-space:nowrap}
+.hero h1 .l{display:inline-block;transition:transform .2s cubic-bezier(.3,1.6,.5,1),color .2s}
+.hero h1 .l:hover{transform:translateY(-12px) rotate(-6deg);color:var(--clay)}
+.hero .role{margin-top:14px;font-size:clamp(14px,1.3vw,16px);color:var(--muted);letter-spacing:.02em}
+.hero .role b{color:var(--ink);font-weight:600}
+
+/* polaroid */
+.polaroid{position:absolute;width:150px;z-index:5;background:#fff;padding:9px 9px 30px;box-shadow:0 10px 22px rgba(60,40,20,.16);transform:rotate(-4deg);cursor:grab;touch-action:none;user-select:none}
+.polaroid .pic{aspect-ratio:1;width:100%;display:block;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
+.polaroid.p1{left:4%;top:6%}
+.polaroid.p2{left:15%;top:4%;transform:rotate(5deg)}
+.polaroid.dragging{z-index:60;cursor:grabbing}
+.polaroid span{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-family:var(--hand);font-size:16px;color:var(--muted)}
+
+/* icons */
+.icon{position:absolute;width:118px;z-index:4;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 4px;border-radius:8px;touch-action:none;user-select:none;transform:translateX(-50%)}
+.icon:hover .lbl,.icon:focus-visible .lbl,.icon.sel .lbl{background:var(--clay);color:#fff}
+.icon:focus-visible{outline:none}
+.icon.dragging{opacity:.85;z-index:60;cursor:grabbing}
+.ico{width:60px;height:50px;filter:drop-shadow(0 3px 3px rgba(60,40,20,.14))}
+.ico.doc{width:42px;height:52px}
+.ico.finder.warm{filter:drop-shadow(0 3px 4px rgba(150,70,30,.2))}
+.ico.finder{width:66px;height:54px;filter:drop-shadow(0 3px 4px rgba(20,60,120,.18))}
+.icon.proj:hover .lbl,.icon.proj:focus-visible .lbl{background:#2f80ed}
+.icon.proj.warm:hover .lbl,.icon.proj.warm:focus-visible .lbl{background:var(--clay)}
+.lbl{font-size:11.5px;font-weight:500;text-align:center;line-height:1.25;padding:1px 6px;border-radius:5px}
+
+/* ---------- windows ---------- */
+#wins{position:absolute;inset:0;pointer-events:none;z-index:20}
+.win{position:absolute;pointer-events:auto;display:flex;flex-direction:column;max-height:calc(100% - 118px);background:#fffdf9;border-radius:14px;overflow:hidden;box-shadow:0 28px 64px rgba(60,30,10,.24),0 0 0 1px rgba(60,40,20,.08);animation:pop .2s ease-out}
+@keyframes pop{from{transform:scale(.94) translateY(8px);opacity:0}}
+.win.closing{animation:shut .14s ease-in forwards}
+@keyframes shut{to{transform:scale(.95);opacity:0}}
+.bar{flex:0 0 38px;position:relative;display:flex;align-items:center;justify-content:center;background:#f3ece2;border-bottom:1px solid #e8dfd2;cursor:grab;touch-action:none;user-select:none}
+.dots{position:absolute;left:13px;display:flex;gap:8px}
+.dots>*{width:12px;height:12px;border-radius:50%;display:block}
+.dots .x{background:#ff5f57}.dots .m{background:#febc2e}.dots .z{background:#28c840}
+.dots:hover .x::after{content:"×";display:block;font-size:11px;line-height:12px;text-align:center;color:#6b0000}
+.dots:hover .z::after{content:"+";display:block;font-size:11px;line-height:12px;text-align:center;color:#0a5016}
+.wt{font-size:13px;font-weight:600;color:#6b6158}
+.win.max{left:10px!important;top:10px!important;right:10px;bottom:98px;width:auto!important;max-height:none}
+.body{overflow:auto;padding:24px 26px 28px;font-size:14.5px;line-height:1.65}
+.body h2{font-family:var(--serif);font-weight:400;font-size:36px;line-height:1.08;letter-spacing:-.01em;margin-bottom:8px}
+.body h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:22px 0 6px;font-weight:600}
+.body p+p{margin-top:10px}
+.kicker{font-size:11.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--clay);font-weight:700;margin-bottom:8px}
+.muted{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:9px 18px;border-radius:99px;background:var(--ink);color:#fff;text-decoration:none;font-weight:500;font-size:14px}
+.btn:hover{background:var(--clay)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font-size:12.5px;padding:4px 11px;border-radius:99px;background:var(--sage-soft);color:#3e5a3a;font-weight:500}
+.chip.l{background:#e9e1f0;color:#5b4170}
+.chip.c{background:var(--clay-soft);color:#7d3418}
+
+/* about */
+.about-top{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;margin-bottom:6px}
+.avatar{width:120px;aspect-ratio:1;border-radius:50%;object-fit:cover;box-shadow:0 6px 16px rgba(60,40,20,.15);background:linear-gradient(150deg,var(--clay-soft),var(--sage-soft));display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:44px;color:var(--clay)}
+
+/* projects */
+.cover{aspect-ratio:21/9;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:44px;color:#fff;letter-spacing:-.01em}
+.case{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:34px;padding:26px 32px 4px}
+.case p{max-width:62ch}
+.facts{align-self:start;margin-top:6px;padding:16px 18px;background:#f6efe6;border-radius:12px;display:grid;gap:12px}
+.facts dt{font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:700}
+.facts dd{font-size:14px;margin-top:1px}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:8px 32px 0}
+.gallery div{aspect-ratio:4/3;border-radius:10px;display:grid;place-items:center;font-size:12px;color:rgba(0,0,0,.4);text-align:center;padding:8px}
+.win.big .body{padding:0 0 30px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.stats div{padding:12px 14px;border-radius:12px;background:#f8f2ea}
+.stats b{display:block;font-family:var(--serif);font-size:28px;font-weight:400;line-height:1.1}
+.stats small{font-size:12px;color:var(--muted);line-height:1.3;display:block;margin-top:2px}
+
+.cover.img{aspect-ratio:auto;height:300px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;overflow:hidden;
+  background:radial-gradient(60% 90% at 78% 60%,rgba(255,255,255,.16),transparent 70%),linear-gradient(135deg,var(--cc),#5c0b0d);font-style:normal}
+.cover.img .ct{color:#fff;font-family:var(--sans);display:flex;flex-direction:column;gap:4px;max-width:50%}
+.cover.img .ct small{font-size:11.5px;text-transform:uppercase;letter-spacing:.14em;opacity:.75;font-weight:700}
+.cover.img .ct b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:46px;line-height:1.02}
+.cover.img .ct span{font-size:13.5px;opacity:.85}
+.cover.img img{height:150%;align-self:flex-start;margin:3% 4% 0 0;filter:drop-shadow(0 18px 24px rgba(0,0,0,.25))}
+.ticks{list-style:none;display:grid;gap:6px}
+.ticks li{position:relative;padding-left:22px}
+.ticks li::before{content:"";position:absolute;left:2px;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--clay-soft);box-shadow:0 0 0 2px var(--clay) inset}
+.shots{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px;padding:0 32px}
+.shots figure{grid-column:span 6}.shots .s4{grid-column:span 4}.shots .s3{grid-column:span 3}.shots .s2{grid-column:span 2}
+.shots .tall img{aspect-ratio:3/4;object-fit:cover}
+.shots .s4 img,.shots .s2:not(.tall) img{height:260px;object-fit:cover}
+.shots .sq img{aspect-ratio:1;height:auto!important;object-fit:cover}
+.shots .sq.fit img{object-fit:contain}
+.shots .doc img{aspect-ratio:4/5;height:auto!important;object-fit:cover}
+.shots .fit img{object-fit:contain!important;padding:14px;background:#f1ebe2}
+.cover.photo{aspect-ratio:auto;height:340px;display:block;overflow:hidden;background:#ddd}
+.cover.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.shots figure{margin:0}
+.shots img{width:100%;display:block;border-radius:12px;background:#efe7dc;cursor:zoom-in}
+.shots figcaption{font-size:12px;color:var(--muted);margin-top:6px}
+.lightbox{position:fixed;inset:0;z-index:5000;background:rgba(24,18,14,.82);display:grid;place-items:center;padding:24px;cursor:zoom-out;animation:pop .18s ease-out}
+.lightbox img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+@media (max-width:720px){.cover.img{height:auto;flex-direction:column;align-items:flex-start;padding:24px 20px 0;gap:10px}.cover.img .ct{max-width:none}.cover.img .ct b{font-size:34px}.cover.img img{height:300px;align-self:center;margin:0 0 -40px}.shots{padding:0 20px;gap:12px}.shots .s4,.shots .s2,.shots .s3{grid-column:span 6}.shots .tall,.shots .doc,.shots .sq{grid-column:span 3}.shots .s4 img,.shots .s2:not(.tall) img{height:auto}.cover.photo{height:220px}}
+.brands{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;padding:0 32px}
+.brand{margin:0;background:#f8f2ea;border-radius:14px;overflow:hidden}
+.brand img{width:100%;aspect-ratio:3/2;object-fit:contain;background:#fff;display:block;cursor:zoom-in}
+.brand figcaption{padding:12px 14px 14px}
+.brand b{display:block;font-size:14.5px}
+.brand span{display:block;font-size:13px;color:var(--muted);line-height:1.5;margin-top:2px}
+@media (max-width:720px){.brands{grid-template-columns:1fr;padding:0 20px}}
+.dlrow{display:flex;gap:8px;flex-wrap:wrap}.dlrow .btn{margin-top:4px}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:#fff}
+.lock{margin:0 32px;padding:30px 28px;border-radius:16px;background:#f6efe6;border:1.5px dashed #dccdbb;text-align:center}
+.lk-ico{width:52px;height:52px;margin:0 auto 10px;border-radius:50%;background:#fff;display:grid;place-items:center;color:var(--clay);box-shadow:0 2px 8px rgba(60,40,20,.1)}
+.lk-ico svg{width:24px;height:24px}
+.lock h4{font-family:var(--serif);font-weight:400;font-size:24px}
+.lock p{max-width:46ch;margin:6px auto 0;color:var(--muted);font-size:14px}
+.lock .btn{margin-top:14px}
+.lock .lk-mail{font-size:12.5px;margin-top:8px}
+.lk-form{display:flex;gap:8px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.lk-form input{font:inherit;font-size:14px;padding:9px 14px;border:1px solid #e3d9cc;border-radius:99px;background:#fff;width:200px;text-transform:uppercase}
+.lk-form .btn{margin-top:0}
+.lk-err{color:#b3261e!important;font-size:13px!important;min-height:1em}
+@media (max-width:720px){.lock{margin:0 20px;padding:24px 18px}}
+/* project list */
+.plist{display:grid;gap:8px;margin-top:8px}
+.plist button{display:grid;grid-template-columns:48px 1fr auto;gap:14px;align-items:center;text-align:left;padding:10px 12px;border-radius:12px;background:#f8f2ea;transition:background .15s,transform .15s}
+.plist button:hover{background:#dcebfb;transform:translateX(3px)}
+.plist .sw svg{width:48px;height:40px;display:block}
+.plist b{display:block;font-size:14.5px}
+.plist small{color:var(--muted);font-size:12.5px}
+.plist .arr{color:var(--muted)}
+
+/* resume */
+.tl{margin-top:6px;border-left:2px solid var(--clay-soft);padding-left:18px;display:grid;gap:16px}
+.tl div{position:relative}
+.tl div::before{content:"";position:absolute;left:-24px;top:7px;width:10px;height:10px;border-radius:50%;background:var(--clay)}
+.tl b{display:block}
+.tl small{color:var(--muted)}
+
+/* contact */
+.form{display:grid;gap:10px;margin-top:14px}
+.form input,.form textarea{font:inherit;font-size:14px;padding:10px 12px;border:1px solid #e3d9cc;border-radius:10px;background:#fff;color:var(--ink);resize:vertical}
+.form input:focus,.form textarea:focus{outline:2px solid var(--clay-soft);border-color:var(--clay)}
+.links{display:grid;gap:6px;margin-top:6px}
+.links a{display:flex;justify-content:space-between;padding:9px 12px;border-radius:10px;background:#f8f2ea;text-decoration:none;color:var(--ink);font-weight:500}
+.links a:hover{background:var(--clay-soft)}
+.links a span{color:var(--muted);font-weight:400}
+
+/* books */
+.book{display:grid;grid-template-columns:10px 1fr;gap:16px;margin-top:14px;padding:16px 18px 16px 0;border-radius:12px;background:#f8f2ea;overflow:hidden}
+.book .spine{background:var(--b)}
+.book b{font-family:var(--serif);font-size:20px;font-weight:400;font-style:italic}
+.book small{display:block;color:var(--muted);font-size:12.5px}
+.book .orig{margin-top:10px;font-size:13.5px;color:var(--muted);font-style:italic}
+.book .tr{margin-top:6px;font-family:var(--serif);font-size:17px;line-height:1.5}
+.book .tr.empty{font-family:var(--sans);font-size:13.5px;color:var(--muted);border:1.5px dashed #d8cbbb;border-radius:8px;padding:10px 12px}
+.book .fn{margin-top:8px;font-size:11.5px}
+
+/* language toggle */
+.lang{display:inline-flex;padding:2px;border-radius:99px;background:rgba(60,40,20,.08);margin-right:10px}
+.lang button{font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:2px 9px;border-radius:99px;color:var(--muted);transition:background .15s,color .15s}
+.lang button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(60,40,20,.18)}
+.lang button:hover:not([aria-pressed="true"]){color:var(--ink)}
+.snote{font-size:12px;color:var(--muted);margin-top:8px}
+@media (max-width:420px){.hide-xs{display:none}.lang{margin-right:4px}}
+/* apps widget */
+.appsw{position:absolute;left:50%;transform:translateX(-50%);bottom:98px;width:auto;z-index:6;padding:14px 16px 12px;border-radius:22px;background:rgba(255,252,247,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 12px 30px rgba(60,30,10,.14),0 0 0 1px rgba(60,40,20,.08);cursor:grab;touch-action:none;user-select:none}
+.appsw.dragging{cursor:grabbing;z-index:60}
+.appsw h4{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 2px 10px;text-align:center}
+.appgrid{display:grid;grid-template-columns:repeat(11,56px);gap:6px 3px}
+.appt{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+.appt .tile{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#fff;box-shadow:0 2px 6px rgba(60,40,20,.12),inset 0 0 0 1px rgba(60,40,20,.06);overflow:hidden}
+.appt .tile img{width:100%;height:100%;object-fit:cover;pointer-events:none;display:block}
+.appt .tile.ph{background:repeating-linear-gradient(135deg,#f6efe6 0 6px,#efe6da 6px 12px);box-shadow:inset 0 0 0 1.5px #e0d4c4}
+.appt span{font-size:10px;font-weight:500;line-height:1.15;text-align:center;color:var(--ink);max-width:66px}
+/* pixel landscape */
+#scene{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;image-rendering:pixelated;image-rendering:crisp-edges;display:block}
+.desk{background:transparent!important}
+.desk::after{display:none}
+.hero h1,.hero .role{text-shadow:0 0 18px rgba(255,248,238,.95),0 0 36px rgba(255,248,238,.8),0 1px 0 rgba(255,248,238,.9)}
+.hero .hi{text-shadow:0 0 12px rgba(255,248,238,.95)}
+.hero .role{display:inline-block;padding:4px 14px;border-radius:99px;background:rgba(255,252,247,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);text-shadow:none}
+.lbl{background:rgba(255,252,247,.86);box-shadow:0 1px 3px rgba(40,30,20,.15)}
+/* apps widget toggle */
+.appsw[hidden]{display:none!important}
+.appsw:not([hidden]){animation:pop .2s ease-out}
+.app.launch{background:linear-gradient(180deg,#ffffff,#eef0f4)!important;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06),inset 0 -3px 0 rgba(0,0,0,.05)}
+.app.launch svg{width:34px;height:34px}
+/* ---------- dock ---------- */
+.dock{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:900;display:flex;align-items:flex-end;gap:8px;padding:8px 10px;border-radius:22px;background:rgba(255,252,247,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 12px 34px rgba(60,30,10,.16),0 0 0 1px rgba(60,40,20,.08)}
+.app{position:relative;width:50px;height:50px;border-radius:13px;display:grid;place-items:center;background:var(--c);color:#fff;font-size:22px;transition:transform .18s cubic-bezier(.3,1.6,.5,1);box-shadow:inset 0 -3px 0 rgba(0,0,0,.08)}
+.app svg{width:24px;height:24px}
+.app:hover{transform:translateY(-8px) scale(1.12)}
+.app .tip{position:absolute;bottom:64px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:12px;padding:3px 9px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .12s}
+.app:hover .tip{opacity:1}
+.app.on::after{content:"";position:absolute;bottom:-6px;width:4px;height:4px;border-radius:50%;background:var(--ink)}
+.sep{width:1px;align-self:stretch;margin:6px 2px;background:rgba(60,40,20,.15)}
+
+/* ---------- mobile ---------- */
+@media (max-width:720px){
+  body{overflow:auto}
+  .desk{position:relative;inset:auto;min-height:100vh;padding:56px 18px 120px}
+  .hero{position:relative;left:auto;top:auto;transform:none;margin:24px 0 28px}
+  .desk{display:flex;flex-direction:column}
+  .hero{order:0}.pols{order:1;display:flex;justify-content:center;gap:10px;margin:0 0 30px}#icons{order:2}
+  .polaroid{position:relative;left:auto!important;top:auto!important;width:46%;max-width:170px}
+  .appsw{order:3;position:relative;left:auto!important;top:auto!important;bottom:auto;transform:none;width:auto;margin-top:26px;cursor:default}
+  .appgrid{grid-template-columns:repeat(4,1fr);gap:12px 6px}
+  #icons{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 4px}
+  .icon{position:static;transform:none;width:auto}
+  #wins{position:fixed;inset:32px 0 0}
+  .win{left:8px!important;right:8px;top:8px!important;width:auto!important;max-height:calc(100% - 100px)}
+  .case{grid-template-columns:1fr;padding:22px 20px 0}
+  .gallery{grid-template-columns:repeat(2,1fr);padding:8px 20px 0}
+  .about-top{grid-template-columns:80px 1fr}.avatar{width:80px;font-size:30px}
+  .app{width:42px;height:42px;border-radius:11px}
+  .tb-meta.hide-m,.logo{display:none}
+  .topbar{padding:0 8px;font-size:12.5px}.topbar .side{gap:0}.tb-link{padding:3px 6px}
+}
+</style>
+</head>
+<body>
+<canvas id="scene" aria-hidden="true"></canvas>
+
+<header class="topbar">
+  <div class="side">
+    <span class="logo" aria-hidden="true"></span>
+    <button class="tb-link name" data-open="about">Daniela Valdez</button>
+    <button class="tb-link" data-open="projects" data-i18n="work">Work</button>
+    <button class="tb-link" data-open="resume" data-i18n="resume">Resume</button>
+    <button class="tb-link hide-xs" data-open="contact" data-i18n="contact">Contact</button>
+  </div>
+  <div class="side">
+    <div class="lang" role="group" aria-label="Language / Idioma">
+      <button data-lang="en" aria-pressed="true">EN</button><button data-lang="es" aria-pressed="false">ES</button>
+    </div>
+    <span class="tb-meta hide-m" id="date"></span>
+    <span class="tb-meta" id="clock"></span>
+  </div>
+</header>
+
+<main class="desk" id="desk">
+  <div class="pols">
+    <div class="polaroid p1" data-drag>
+      <img class="pic" src="img/me-portrait.webp" alt="Portrait of Daniela Valdez" data-i18n-alt="pol1Alt">
+      <span data-i18n="pol1">hola!</span>
+    </div>
+    <div class="polaroid p2" data-drag>
+      <img class="pic" src="img/me-studio.webp" alt="Daniela smiling at a radio studio microphone" data-i18n-alt="pol2Alt">
+      <span data-i18n="pol2">at the studio</span>
+    </div>
+  </div>
+
+  <div class="hero">
+    <span class="hi" data-i18n="hi">hola, I'm</span>
+    <h1 id="heroName" aria-label="Daniela."></h1>
+    <p class="role" id="heroRole"></p>
+  </div>
+
+  <div id="icons"></div>
+  <section class="appsw" id="appsw" data-drag aria-labelledby="appsTitle" hidden>
+    <h4 id="appsTitle" data-i18n="appsTitle">Apps I use most</h4>
+    <div class="appgrid" id="appgrid"></div>
+  </section>
+  <div id="wins"></div>
+</main>
+
+<nav class="dock" id="dock" aria-label="Dock"></nav>
+
+<script>
+const ME_EN = {
+  first: "Daniela",
+  full: "Daniela Valdez",
+  role: "<b>UX/UI Designer</b> · Web Developer Jr at Entravision",
+  roleShort: "UX/UI Designer · Web & Content",
+  location: "Mexico City",
+  email: "ealeinad.vo@gmail.com",
+  linkedin: "https://www.linkedin.com/in/danielavo/",
+  canva: "https://danielavo.my.canva.site/",
+  resumeUrl: "https://drive.google.com/drive/folders/1HqMDj4ByVJo_7eRptHDLCamP0J0zIZXe",
+  about: [
+    "I'm a bilingual (Spanish/English) UX/UI designer and web professional with 6+ years across marketing, branding and digital experiences. I design and ship content-driven websites, build design systems that scale, and turn complex information into simple pages that help people get where they're going.",
+    "I came up through advertising and brand design, from agency work to running monthly campaigns for one of Mexico's largest retailers. Today I design and build web experiences for Entravision, a multinational, U.S.-based media company, working remotely with teams across the U.S. I'm growing into web development and data-informed optimization, with a focus on conversion and user experience."
+  ],
+  skills: ["Information architecture", "Wireframing & prototyping", "User flows", "Design systems", "Responsive web design", "HTML & CSS", "Google Analytics 4", "Content strategy", "Branding", "Copywriting"],
+  tools: ["Visual Studio Code", "WordPress", "Divi", "Claude", "Photoshop", "Illustrator", "Procreate", "Notion", "Google Workspace"],
+  languages: ["Spanish · native", "English · bilingual", "Japanese · limited working", "Portuguese · elementary"],
+  experience: [
+    { role: "Web Developer Jr", org: "Entravision US Media", when: "Aug 2026 — Present · Remote", note: "Building and maintaining pages for Entravision's digital properties in VS Code, WordPress and Divi, with design-system components in HTML/CSS that stay consistent across brands and markets." },
+    { role: "Marketing Design Specialist – UX/UI Designer", org: "Entravision Digital", when: "Jun 2025 — Aug 2026 · Remote", note: "Led front-end design for Noticias and El Botón news sites and scaled the design system to about 30 markets. Designed entravision.com, its US Media site and investor site." },
+    { role: "Advertising Campaign Analyst, Financial Services", org: "Coppel", when: "Feb 2025 — May 2025 · Mexico City", note: "Analyzed campaign performance for financial services to support campaign and CRM decisions." },
+    { role: "Campaign Designer, Financial Services", org: "Coppel", when: "Apr 2022 — Feb 2025 · Culiacán", note: "Ran monthly campaigns end to end, from creative concept to TV, social, OOH and POP, supervising one to two external agencies per campaign." },
+    { role: "Branding", org: "Coppel", when: "Jan 2022 — Apr 2022 · Culiacán", note: "Brand and communication pieces for campaigns and presentations." },
+    { role: "Graphic Designer", org: "En Efecto Publicidad + Marketing", when: "2021 · Culiacán", note: "Brand identities, logos and content across platforms for several clients at once." },
+    { role: "Graphic Designer", org: "EG Mercadotecnia", when: "2019 — 2021 · Culiacán", note: "Branding, logo design and content creation supporting client marketing strategies." }
+  ],
+  education: [{ role: "B.A. Advertising Design and Mass Communication", org: "Universidad San Sebastián", when: "2015 — 2019" }],
+  certs: ["Project Management with Agile Methodology — UC Irvine", "Project Initiation and Planning — Google", "Design-Led Strategy: Design Thinking", "Learn HTML · Learn CSS", "Management Marketing", "Film Screenwriting — Instituto Politécnico Nacional"],
+  projects: [
+    { id: "p1", name: "Entravision.com", tag: "Design system · UX/UI · Corporate web · 2025–26", color: "#910e95", locked: true,
+      coverPhoto: "img/evc-cover.webp", coverAlt: "The refreshed Entravision US Media homepage on a laptop and a phone", coverPos: "50% 30%",
+      summary: "I had the great opportunity to refresh the look of my own company's website. I created the design system behind it and designed Entravision's official global sites: entravision.com, US Media and the investor site.",
+      problem: "A media and advertising company working across many markets needed corporate sites that tell one clear story to very different audiences: advertisers, partners, job seekers and investors, with one look that holds across every page and division.",
+      approach: "I created the Entravision Media website brand guide, a design system that covers logo use, the color palette and gradients, typography, UI components, the layout grid, image and icon style, and a section-by-section breakdown of every page. With it, I defined the page layouts and user flows and worked with stakeholders to align each page's content with business goals, keeping the three sites visually and structurally consistent.",
+      chipsLabel: "What the design system covers",
+      pages: ["Logo use", "Color palette & gradients", "Typography: Poppins + Open Sans", "Buttons & UI components", "Grid & container widths", "Image & icon style", "Page-by-page breakdown"],
+      contributionsLabel: "Pages I designed",
+      contributions: ["Homepage: hero, global portfolio, multi-channel ecosystem, audience reach and careers", "Digital: Entravision+, the Noticias and El Botón networks, Smadex and Adwake", "TV and Radio, with interactive maps of the station footprint", "Careers, Leadership and Contact"],
+      result: "The sites are live and serve real traffic. entravision.com alone sees about 30,000 monthly visitors and 75,000 pageviews (WP Statistics, Oct 2026).",
+      stats: [["30K","monthly visitors"],["75K","monthly pageviews"],["3","sites"]],
+      link: { href: "https://entravision.com/us-media/", label: "Visit entravision.com/us-media ↗" },
+      images: [
+        { src: "img/evc-mockup-hero.webp", alt: "Entravision US Media homepage hero, We Move Culture, on a laptop and a phone", cap: "Homepage hero on desktop and mobile" },
+        { src: "img/evc-mockup-stats.webp", alt: "Audience reach section with large statistics on a laptop and a phone", cap: "Audience reach: big numbers, custom icons, magenta and yellow accents" },
+        { src: "img/evc-mockup-portfolio.webp", alt: "Global portfolio section with a category selector and brand logos", cap: "Global portfolio: switch between Digital, Radio and TV brands" },
+        { src: "img/evc-guide-01.webp", alt: "Brand guide cover: Entravision Media Website", cap: "Brand guide", span: 2, doc: true },
+        { src: "img/evc-guide-03.webp", alt: "Brand guide color palette page", cap: "Color palette & gradients", span: 2, doc: true },
+        { src: "img/evc-guide-04.webp", alt: "Brand guide typography page", cap: "Typography", span: 2, doc: true },
+        { src: "img/evc-guide-02.webp", alt: "Brand guide logo use page", cap: "Logo use", span: 2, doc: true },
+        { src: "img/evc-guide-05.webp", alt: "Brand guide UI components page with buttons", cap: "UI components", span: 2, doc: true },
+        { src: "img/evc-guide-09.webp", alt: "Brand guide homepage structure page", cap: "Homepage breakdown", span: 2, doc: true }
+      ],
+      facts: { Role: "UX/UI Designer, design system author", Scope: "Design system, layouts, user flows, content structure", Sites: "entravision.com · /us-media · investor.entravision.com", Typography: "Poppins, Open Sans", Tools: "WordPress, Divi, Illustrator, Photoshop" } },
+    { id: "p2", name: "Noticias & El Botón", tag: "UX/UI · Front-end · Branding · 2025", color: "#a3161a",
+      logo: "Noticias",
+      cover: "img/noticias-hand.webp", coverAlt: "A Noticias homepage on a phone",
+      summary: "Design and front end for Noticias, a Spanish-language news platform for Hispanic audiences across the U.S. It's based in Palm Springs and runs local editions in 20+ cities, each with its own market name after “Noticias.”",
+      problem: "The platform needed a modular design system that could support many content types, local editions, ad placements and fast content updates.",
+      approach: "I designed and built a component-based front end that keeps every market consistent and makes the platform easy to scale. I also created the Noticias logo and brandbook, which set the visual identity and design direction for the whole site. Along the way I used GA4 reports (traffic sources, device mix, top pages, form conversions) to guide design and content decisions.",
+      pages: ["Homepage", "Sports", "News galleries: Local, Regional, National, International", "Radio", "Individual radio stations", "Local ads", "Contests", "Interactive weather page"],
+      contributions: ["Modular page templates for news, sports, galleries, radio and ads", "A design system that supports localized content for each city", "Cross-functional collaboration with developers", "Brand identity: logo and brandbook"],
+      outcomes: ["A consistent experience across 20+ local editions", "Efficient content publishing workflows", "A scalable foundation for future expansion"],
+      result: "Noticias 48 McAllen alone sees about 274,000 visitors and 618,000 pageviews a month, about 62% of them on mobile.",
+      stats: [["20+","local editions"],["274K","monthly visitors · Noticias 48"],["62%","mobile traffic"]],
+      images: [
+        { src: "img/noticias-desktop.webp", alt: "Desktop layouts: homepage, sports, local news, article and radio station pages", cap: "Desktop: homepage, sports, local news, article and radio station pages" },
+        { src: "img/noticias-mobile.webp", alt: "Mobile screens: sports, weather, homepage, article footer, menu and radio station", cap: "Mobile: sports, interactive weather, homepage, menu and radio" }
+      ],
+      facts: { Role: "UX/UI & Visual Designer, front-end", Audience: "Hispanic audiences in 20+ U.S. cities", Year: "2025", Deliverables: "Design system, page templates, logo & brandbook", Sites: "noticiaspalmsprings.com · elboton.com · noticias48kvo.com", Tools: "Figma, WordPress, HTML/CSS, GA4" } },
+    { id: "p6", name: "NBC Palm Springs App", tag: "Design proposal · UX research · UX/UI · 2026", color: "#16245e", locked: true, linkLocked: true,
+      logo: "NBC Palm Springs",
+      cover: "img/nbc-phones.webp", coverAlt: "Redesigned NBC Palm Springs app: weather, home and alerts screens",
+      summary: "A redesign proposal for the NBC Palm Springs news app, rebuilt around the four questions Coachella Valley residents actually open it for.",
+      problem: "The app works like the station's website inside an app wrapper. It's organized around the station's shows and ad inventory instead of what residents need. About 87K people have installed it, but only around 6.6K open it in a given month: it gets downloaded, but it doesn't become a habit.",
+      approach: "I audited the current iOS build, read through App Store reviews and scanned the main local competitor, KESQ. I found nine problem areas, from navigation that follows the station's org chart to stale stories and an alerts ticker nobody can read. From there I defined five design principles, a new five-tab structure and a prioritized list of fixes, then designed and prototyped the new app for iPhone and Android, with a visual system that stays unmistakably NBC.",
+      chipsLabel: "Four questions, one tap each",
+      pages: ["What's happening near me?", "Is my road open?", "What's the weather?", "Can I watch live?"],
+      contributionsLabel: "Design principles",
+      contributions: ["Local first: valley stories lead, national news gets its own section", "Fresh or flagged: every item shows when it was published, and old items leave featured spots", "One tap to the essentials: Live, Weather and Alerts each get a tab", "Sponsored is labeled: ads and promos look different from news", "Users choose: your city and topics shape the feed and the alerts"],
+      outcomesLabel: "What changes",
+      outcomes: ["A five-tab bar (Home, Live, Weather, Alerts, Search) replaces a 25-item menu", "Tappable alert cards replace the scrolling red ticker", "A short onboarding sets your city and alert topics", "Weather becomes a real tool: hourly and 7-day forecasts, radar and live cams", "An in-app form for sending tips with photos or video"],
+      result: "Next, I'll validate these findings with analytics, the newsroom and usability tests on three tasks: finding today's weather, checking a road closure and sending a tip.",
+      stats: [["~87K","installs"],["~6.6K","monthly users"],["9","problem areas found"]],
+      statsNote: "Install and user figures are third-party estimates (AppGoblin).",
+      link: { href: "https://claude.ai/artifact/L5Gukw7KdhnCrY7Mrsor9t", label: "Open the interactive prototype ↗" },
+      images: [
+        { src: "img/nbc-screens.webp", alt: "Redesigned app screens: launch, onboarding, home and live", cap: "The full flow: launch, onboarding, home, live and more" },
+        { src: "img/nbc-principles.webp", alt: "Five design principles: local first, fresh or flagged, utilities one tap away, sponsored is labeled, users choose", cap: "Five principles that guide every screen" },
+        { src: "img/nbc-visual-system.webp", alt: "Visual system: color palette, type scale and key components", cap: "Visual system: NBC navy, the peacock colors as topic labels, Inter type and key components" }
+      ],
+      facts: { Role: "UX researcher & UX/UI designer", App: "NBC Palm Springs, iPhone & Android", Publisher: "OTA Broadcasting / Entravision", Research: "Heuristic walkthrough, App Store reviews, competitive scan", Year: "2026" } },
+    { id: "p8", name: "Community App", tag: "UX/UI · Community app · Web & mobile", color: "#5559d8",
+      coverPhoto: "img/cm-cover.webp", coverAlt: "Community app feed on a laptop and a phone", coverPos: "50% 45%",
+      summary: "A Spanish-language community app where Hispanic neighbors in U.S. cities share local news, alerts, recommendations and events. (The app's real name is confidential.)",
+      problem: "Neighbors were sharing traffic updates, safety alerts, lost pets and job posts across scattered group chats. The app needed one place where that information is easy to post, easy to scan by topic and city, and quick to act on when something is urgent.",
+      approach: "I worked on the design, the user flows and the mockups. I organized the feed around communities (topics like traffic, safety, food, jobs and pets) and cities, with Recent, Trending, News and Explore views. Side panels surface trending posts, local events, emergency alerts and community rules, and a notifications panel and Google sign-in keep the flow to posting short. Every screen adapts from desktop to phone.",
+      chipsLabel: "What I worked on",
+      pages: ["User flows", "Information architecture", "Feed & post cards", "Communities & city filters", "Notifications", "Sign-in & onboarding", "Desktop & mobile mockups"],
+      contributionsLabel: "Key design decisions",
+      contributions: ["Topic tags on every post so people can scan the feed in seconds", "City filters so the feed stays truly local", "A dedicated emergency-alerts panel, separate from everyday posts", "Visible community rules to set the tone for respectful conversation"],
+      result: "A clear, friendly feed that keeps local information one tap away, designed mobile-first and ready to scale to more cities.",
+      images: [
+        { src: "img/cm-mockup-feed.webp", alt: "The community feed on a laptop and a phone", cap: "The feed on desktop and mobile" },
+        { src: "img/cm-mockup-notifs.webp", alt: "The notifications panel on a laptop and a phone", cap: "Notifications panel" },
+        { src: "img/cm-mobile.webp", alt: "Three mobile screens: sign-in and communities, the feed, and notifications", cap: "Mobile: sign-in & communities, feed, notifications" }
+      ],
+      facts: { Role: "UX/UI Designer", Scope: "Design, user flows, mockups", Platforms: "Web, desktop & mobile", Language: "Spanish", Cities: "McAllen, Houston, Denver, Austin and more" } },
+    { id: "p3", name: "Reyna 103.1 FM", tag: "Logo & brand identity · 2025–26", color: "#9b3c60",
+      coverPhoto: "img/reyna-cover.webp", coverAlt: "Reyna 103.1 FM logo in white on a magenta background", coverPos: "50% 50%",
+      summary: "The logo, the crown icon and the logo guide for Reyna 103.1 FM, a Los Angeles radio station. I also advised on the station's app as a consultant.",
+      problem: "The station needed an identity with presence: a logo that feels confident on air and on social media, and an icon that still reads at app-icon size.",
+      approach: "I designed the script primary logo and the crown isotype, then documented them in a logo guide: the color palette, typography, approved color combinations, clear space and minimum size, incorrect uses and a brand moodboard. On the app, my role was consulting, not design.",
+      chipsLabel: "What the logo guide covers",
+      pages: ["Primary logo", "Crown isotype", "Color palette", "Typography: Montserrat + Anton", "Color combinations", "Clear space & minimum size", "Incorrect use", "Brand moodboard"],
+      result: "A complete, documented identity the station can apply consistently, from on-air promos to its app icon.",
+      images: [
+        { src: "img/reyna-guide-1.webp", alt: "Logo guide: primary logo, isotype, color palette and typography", cap: "Primary logo, crown isotype, color palette and typography" },
+        { src: "img/reyna-guide-2.webp", alt: "Logo guide: color combinations, clear space, minimum size and incorrect use", cap: "Color combinations, clear space, minimum size and incorrect use" },
+        { src: "img/reyna-guide-3.webp", alt: "Brand moodboard with Los Angeles and studio imagery", cap: "Brand moodboard" }
+      ],
+      facts: { Role: "Logo & brand designer; app consultant", Client: "Reyna 103.1 FM (Los Angeles)", Deliverables: "Logo, isotype, logo guide", Typography: "Montserrat, Anton", Tools: "Illustrator, Photoshop" } },
+    { id: "p4", name: "BanCoppel · El banco que quiero", tag: "Nationwide umbrella campaign · Mexico · 2022–2024", color: "#1d4fb3",
+      coverPhoto: "img/bancoppel-billboard.webp", coverAlt: "BanCoppel Cuenta Nómina billboard on a building wall", coverPos: "50% 48%",
+      summary: "The “El banco que quiero” umbrella campaign for BanCoppel, Coppel's bank, which ran nationwide across Mexico. I worked on it from the first concept to the last asset, across digital and print.",
+      problem: "BanCoppel needed one visual language that could scale from huge billboards to small digital ads during its biggest promotional moments, without losing the brand along the way.",
+      approach: "I helped develop a campaign framework that turned one core concept into flexible layouts for every format. I was involved from the start: I was on the team that approved the campaign concept, attended the filming of the commercial and TV ads, and supervised the photoshoots used across the whole campaign. From there I designed the digital assets (Google Ads, landing page banners, social media) and the print and out-of-home pieces (vehicle wraps, billboards, point-of-purchase displays and multiple editions of a monthly print newspaper), and supervised production through delivery and implementation.",
+      chipsLabel: "What I designed",
+      pages: ["Google Ads", "Landing page banners", "Social media", "Billboards", "Vehicle wraps", "Mall banners", "POP displays", "In-branch signage", "Monthly print newspaper"],
+      contributionsLabel: "System highlights",
+      contributions: ["Supervised production, from filming and photoshoots to design, asset delivery and implementation", "A grid system that adapts to out-of-home and digital formats", "Clear hierarchy for headline-driven messaging", "Visual rules that keep everything legible at any distance and scale"],
+      outcomes: ["A seamless nationwide rollout across Mexico, in physical and digital environments", "Strong brand recall through visual consistency", "A long-lasting campaign, thanks to adaptable layouts"],
+      stats: [["2022–24","campaign years"],["4","channels: OOH, POP, print, digital"],["100+","assets designed"]],
+      images: [
+        { src: "img/bancoppel-bus-side.webp", alt: "Bus side wrap: Tu Cuenta Nómina BanCoppel te da grandes beneficios", cap: "Vehicle wrap: bus side", span: 4, fit: true },
+        { src: "img/bancoppel-bus-back.webp", alt: "Bus back wrap with QR code", cap: "Vehicle wrap: bus back", span: 2, fit: true },
+        { src: "img/bancoppel-mall-banner.webp", alt: "Tall BanCoppel banner hanging in a shopping mall atrium", cap: "Mall banner", span: 2, tall: true },
+        { src: "img/bancoppel-pop-stand.webp", alt: "In-branch stand: Conviértete en Cliente Oro", cap: "In-branch POP stand", span: 2, tall: true, fit: true },
+        { src: "img/bancoppel-cutout.webp", alt: "Life-size cutout in a Coppel store: Abre tu Cuenta Nómina BanCoppel aquí", cap: "In-store cutout", span: 2, tall: true, fit: true },
+        { src: "img/bancoppel-brochure.webp", alt: "Spreads from the BanCoppel monthly newspaper about the app, investments and the Oro credit card", cap: "Monthly newspaper: I designed multiple editions", span: 6 }
+      ],
+      facts: { Role: "Visual Designer", Client: "BanCoppel (Coppel Financial Services)", Campaign: "“El banco que quiero” (umbrella)", Reach: "Nationwide, Mexico", Channels: "OOH, POP, print, digital", Year: "2022–2024", Tools: "Adobe Suite" } },
+    { id: "p5", name: "Brand Identities", tag: "Logo design · Branding", color: "#c8643f",
+      coverPhoto: "img/brands-cover.webp", coverAlt: "Logos for LÜDI KIDS, Salo Fresh Produce, Call Me Calmy and All Call", coverPos: "50% 50%",
+      summary: "Logos and brand identities I've created, from a children's learning center and a produce brand to a local clothing label and an internal company event.",
+      problem: "Each brand needed an identity that fits its audience at a glance: playful and warm for kids and parents, fresh and bold for produce, fun for streetwear, and energetic for an all-hands meeting.",
+      approach: "For each one I developed the logo and visual identity: the type, color and a small graphic idea that carries the brand's personality, like the leaves on Salo's “o” or the megaphone around All Call.",
+      brandsLabel: "Selected logos",
+      brands: [
+        { name: "LÜDI KIDS", img: "img/brand-ludikids.webp", desc: "A children's learning and developmental center offering play-based academic support and child therapies. Tagline: “Donde los niños aprenden jugando.”" },
+        { name: "Salo Fresh Produce", img: "img/brand-salo.webp", desc: "An agriculture and fresh produce organization." },
+        { name: "Call Me Calmy", img: "img/brand-calmy.webp", desc: "A local clothing brand." },
+        { name: "All Call", img: "img/brand-allcall.webp", desc: "The identity for a company's monthly corporate all-hands meeting with the CEO." }
+      ],
+      result: "Identities with distinct personalities, each built to work across signage, social media and print.",
+      facts: { Role: "Logo & brand designer", Brands: "LÜDI KIDS, Salo, Call Me Calmy, All Call", Industries: "Education, agriculture, fashion, corporate", Tools: "Illustrator, Photoshop, Procreate" } },
+    { id: "p7", name: "Createch Energías", tag: "Print & digital design · Solar energy", color: "#12a05a",
+      coverPhoto: "img/ct-cover.webp", coverAlt: "Createch Energías logo", coverPos: "50% 50%",
+      summary: "Print and digital design for Createch Energías, a Mexican solar panel company, from business cards and employee badges to mailings and monthly social media content.",
+      problem: "Solar panels are a big, technical purchase. Createch needed materials that make the savings easy to understand and that look consistent everywhere, from a business card to an Instagram feed.",
+      approach: "I worked within Createch's green-and-navy identity across print and digital. For print, I designed flyers, business cards and employee badges. For digital, I designed email mailings and the monthly social media content: promotions with clear package pricing, co-branded posts with partners like Torke, savings-focused posts for homes and businesses, and commemorative posts like World Energy Saving Day.",
+      chipsLabel: "What I designed",
+      pages: ["Flyers", "Business cards", "Employee badges", "Email mailings", "Monthly social media content", "Promotional posts", "Commemorative posts"],
+      result: "A consistent, recognizable look across every touchpoint, with offers that are quick to read and compare.",
+      images: [
+        { src: "img/ct-cards.webp", alt: "Createch Energías rounded business cards", cap: "Business cards", span: 3 },
+        { src: "img/ct-badge.webp", alt: "Createch Energías employee badge on a green lanyard", cap: "Employee badge", span: 3 },
+        { src: "img/ct-mailing.webp", alt: "Email mailing comparing Standard and Premium solar panel packages", cap: "Email mailing: Standard vs. Premium packages", span: 2, sq: true, fit: true },
+        { src: "img/ct-post-torke.webp", alt: "Co-branded summer promotion post with Torke", cap: "Co-branded promotion with Torke", span: 2, sq: true },
+        { src: "img/ct-post-kitchen.webp", alt: "Social post: 14 panels power a home's air conditioning, lights, stove and fridge", cap: "Savings post for homes", span: 2, sq: true },
+        { src: "img/ct-post-business.webp", alt: "Social post: up to 90% electricity savings for businesses", cap: "Savings post for businesses", span: 2, sq: true },
+        { src: "img/ct-post-newyear.webp", alt: "New Year promotion post with solar panels on a tiled roof", cap: "New Year promotion", span: 2, sq: true },
+        { src: "img/ct-post-day.webp", alt: "World Energy Saving Day commemorative post with a lightbulb and leaves illustration", cap: "Commemorative post: World Energy Saving Day", span: 2, sq: true }
+      ],
+      facts: { Role: "Graphic Designer", Client: "Createch Energías (Mexico)", Industry: "Solar energy", Channels: "Print, email, social media", Tools: "Illustrator, Photoshop" } },
+    { id: "p9", name: "Coppel Pay", tag: "Year-round campaign · Digital & social · 2024", color: "#2b5bab",
+      coverPhoto: "img/cp-cover.webp", coverAlt: "Coppel Pay social stories and posts on a yellow background", coverPos: "50% 50%",
+      summary: "The year-round campaign for Coppel Pay, Coppel's payment sub-brand that lets customers use their Crédito Coppel at partner businesses, from motorcycle dealers and airlines to beauty, health and home stores.",
+      problem: "Coppel Pay needed to show that Crédito Coppel works beyond Coppel stores, across very different partners, while staying instantly recognizable as Coppel in every channel and format, month after month.",
+      approach: "I was involved from the conceptualization of the campaign and supervised the photoshoot for the year-round campaign. I then designed the digital assets (Google Ads, landing page banners and paid media) and the social media content (posts, videos, carousels and stories), plus point-of-purchase materials. I built a consistent system on Coppel's yellow and blue: bold headline questions, interactive-style poll stickers in stories, and partner logos and products front and center.",
+      chipsLabel: "What I designed",
+      pages: ["Google Ads", "Landing page banners", "Paid media", "Social posts", "Videos", "Carousels", "Stories", "POP"],
+      contributionsLabel: "Campaign highlights",
+      contributions: ["Involved from concept through the year-round photoshoot", "One recognizable look across dozens of partners and formats", "Story formats with poll-style stickers to invite interaction", "Seasonal moments: vacations, Children's Day, Mother's Day, Hot Sale and New Year"],
+      result: "A consistent, always-on campaign that made Coppel Pay feel like one brand everywhere, from Instagram stories to web banners and in-store materials.",
+      images: [
+        { src: "img/cp-gdn-honda.webp", alt: "Google Display ad: enjoy your new Honda motorcycle with Coppel Pay", cap: "Google Ads: Honda", span: 2, sq: true },
+        { src: "img/cp-post-viva.webp", alt: "Social post: travel today and pay in up to 12 months with Viva Aerobus", cap: "Social post: Viva Aerobus", span: 2, sq: true },
+        { src: "img/cp-post-travel.webp", alt: "Social post: this vacation I'm traveling to, with three bus partners", cap: "Social post: vacations", span: 2, sq: true },
+        { src: "img/cp-story-adventure.webp", alt: "Instagram story with a poll: which adventure will you choose on your new motorcycle?", cap: "Story with poll sticker", span: 2, tall: true, fit: true },
+        { src: "img/cp-story-best.webp", alt: "Instagram story with a poll: what's the best part of buying a motorcycle with Crédito Coppel?", cap: "Story with poll sticker", span: 2, tall: true, fit: true },
+        { src: "img/cp-banner-salud.webp", alt: "Skyscraper web banner for Children's Day with Salud Digna", cap: "Web banner: Children's Day", span: 2, tall: true, fit: true },
+        { src: "img/cp-banner-beauty.webp", alt: "Desktop landing page banner for beauty products with Coppel Pay", cap: "Landing page banner: beauty", span: 4, fit: true },
+        { src: "img/cp-banner-home.webp", alt: "Mobile banner: improve your home with Coppel Pay for Hot Sale", cap: "Mobile banner: Hot Sale", span: 2, tall: true, fit: true }
+      ],
+      facts: { Role: "Campaign Designer", Client: "Coppel Pay (Coppel)", Scope: "Concept, photoshoot supervision, digital, social, POP", Channels: "Google Ads, web, paid media, social, POP", Year: "2024", Tools: "Adobe Suite" } },
+  ],
+  books: [
+    { title: "Demian", author: "Hermann Hesse, 1919", color: "#7b8fb8",
+      original: "Der Vogel kämpft sich aus dem Ei. Das Ei ist die Welt. Wer geboren werden will, muß eine Welt zerstören.",
+      translation: "The bird fights its way out of the egg. The egg is the world. Whoever wants to be born must destroy a world.",
+      note: "Original German; English translation mine." },
+    { title: "The Iliad", author: "Homer, Book VI", color: "#c8643f",
+      original: "οἵη περ φύλλων γενεὴ τοίη δὲ καὶ ἀνδρῶν.",
+      translation: "As the generations of leaves, so are the generations of people. The wind scatters the leaves to the ground, but the living forest grows new ones when spring comes again.",
+      note: "Ancient Greek; English translation mine." }
+  ]
+};
+
+
+
+/* Spanish overrides: anything not listed here falls back to English */
+const ME_ES = {
+  role: "<b>Diseñadora UX/UI</b> · Desarrolladora Web Jr en Entravision",
+  roleShort: "Diseñadora UX/UI · Web y contenido",
+  location: "Ciudad de México",
+  about: [
+    "Soy diseñadora UX/UI y profesional web bilingüe (español/inglés) con más de 6 años de experiencia en marketing, branding y experiencias digitales. Diseño y lanzo sitios web basados en contenido, construyo sistemas de diseño que escalan y convierto información compleja en páginas simples que ayudan a las personas a llegar a donde quieren.",
+    "Vengo de la publicidad y el diseño de marca: empecé en agencias y después dirigí campañas mensuales para una de las tiendas más grandes de México. Hoy diseño y desarrollo experiencias web para Entravision, una empresa de medios multinacional con sede en EE. UU., trabajando de forma remota con equipos en todo Estados Unidos. Estoy creciendo hacia el desarrollo web y la optimización basada en datos, con enfoque en conversión y experiencia de usuario."
+  ],
+  skills: ["Arquitectura de información", "Wireframes y prototipos", "Flujos de usuario", "Sistemas de diseño", "Diseño web responsivo", "HTML y CSS", "Google Analytics 4", "Estrategia de contenido", "Branding", "Copywriting"],
+  languages: ["Español · nativo", "Inglés · bilingüe", "Japonés · nivel de trabajo limitado", "Portugués · básico"],
+  experience: [
+    { role: "Desarrolladora Web Jr", when: "ago 2026 — actual · Remoto", note: "Construyo y mantengo páginas para las propiedades digitales de Entravision en VS Code, WordPress y Divi, con componentes del sistema de diseño en HTML/CSS que se mantienen consistentes entre marcas y mercados." },
+    { role: "Especialista en Diseño de Marketing – Diseñadora UX/UI", when: "jun 2025 — ago 2026 · Remoto", note: "Lideré el diseño front-end de los sitios de noticias Noticias y El Botón, y escalé el sistema de diseño a unos 30 mercados. Diseñé entravision.com, su sitio de US Media y el sitio para inversionistas." },
+    { role: "Analista de Campañas Publicitarias, Servicios Financieros", when: "feb 2025 — may 2025 · Ciudad de México", note: "Analicé el desempeño de campañas de servicios financieros para apoyar decisiones de campaña y CRM." },
+    { role: "Diseñadora de Campañas, Servicios Financieros", when: "abr 2022 — feb 2025 · Culiacán", note: "Llevé campañas mensuales de principio a fin, del concepto creativo a TV, redes sociales, OOH y POP, supervisando de una a dos agencias externas por campaña." },
+    { role: "Branding", when: "ene 2022 — abr 2022 · Culiacán", note: "Piezas de marca y comunicación para campañas y presentaciones." },
+    { role: "Diseñadora Gráfica", when: "2021 · Culiacán", note: "Identidades de marca, logotipos y contenido para varias plataformas y varios clientes a la vez." },
+    { role: "Diseñadora Gráfica", when: "2019 — 2021 · Culiacán", note: "Branding, diseño de logotipos y creación de contenido para apoyar las estrategias de marketing de los clientes." }
+  ],
+  education: [{ role: "Licenciatura en Diseño Publicitario y Comunicación Masiva" }],
+  certs: ["Gestión de proyectos con metodología ágil — UC Irvine", "Inicio y planificación de proyectos — Google", "Estrategia guiada por diseño: Design Thinking", "Learn HTML · Learn CSS", "Marketing gerencial", "Guion cinematográfico — Instituto Politécnico Nacional"],
+  projects: [
+    { tag: "Sistema de diseño · UX/UI · Web corporativa · 2025–26",
+      coverAlt: "La página de inicio renovada de Entravision US Media en una laptop y un celular",
+      summary: "Tuve la gran oportunidad de renovar el look del sitio web de mi propia empresa. Creé el sistema de diseño detrás de él y diseñé los sitios globales oficiales de Entravision: entravision.com, US Media y el sitio para inversionistas.",
+      problem: "Una empresa de medios y publicidad que trabaja en muchos mercados necesitaba sitios corporativos que contaran una sola historia clara a públicos muy distintos: anunciantes, socios, candidatos e inversionistas, con un mismo look en cada página y cada división.",
+      approach: "Creé el brand guide del sitio web de Entravision Media, un sistema de diseño que cubre el uso del logotipo, la paleta de color y los degradados, la tipografía, los componentes de UI, la retícula, el estilo de imágenes e íconos, y el desglose sección por sección de cada página. Con él definí los layouts y los flujos de usuario, y trabajé con los stakeholders para alinear el contenido de cada página con los objetivos del negocio, manteniendo los tres sitios consistentes en lo visual y en la estructura.",
+      chipsLabel: "Lo que cubre el sistema de diseño",
+      pages: ["Uso del logotipo", "Paleta de color y degradados", "Tipografía: Poppins + Open Sans", "Botones y componentes de UI", "Retícula y anchos de contenedor", "Estilo de imágenes e íconos", "Desglose página por página"],
+      contributionsLabel: "Páginas que diseñé",
+      contributions: ["Inicio: hero, portafolio global, ecosistema multicanal, alcance de audiencia y carreras", "Digital: Entravision+, las redes Noticias y El Botón, Smadex y Adwake", "TV y Radio, con mapas interactivos de la cobertura de estaciones", "Carreras, Liderazgo y Contacto"],
+      result: "Los sitios están en línea y reciben tráfico real. Solo entravision.com recibe unos 30,000 visitantes y 75,000 páginas vistas al mes (WP Statistics, oct 2026).",
+      stats: [["30K","visitantes al mes"],["75K","páginas vistas al mes"],["3","sitios"]],
+      link: { label: "Visitar entravision.com/us-media ↗" },
+      images: [
+        { alt: "Hero de la página de inicio de Entravision US Media, We Move Culture, en una laptop y un celular", cap: "Hero de la página de inicio en escritorio y móvil" },
+        { alt: "Sección de alcance de audiencia con estadísticas grandes en una laptop y un celular", cap: "Alcance de audiencia: cifras grandes, íconos propios y acentos en magenta y amarillo" },
+        { alt: "Sección de portafolio global con selector de categoría y logotipos de marcas", cap: "Portafolio global: cambia entre marcas de Digital, Radio y TV" },
+        { alt: "Portada del brand guide: Entravision Media Website", cap: "Brand guide" },
+        { alt: "Página de paleta de color del brand guide", cap: "Paleta de color y degradados" },
+        { alt: "Página de tipografía del brand guide", cap: "Tipografía" },
+        { alt: "Página de uso del logotipo del brand guide", cap: "Uso del logotipo" },
+        { alt: "Página de componentes de UI con botones", cap: "Componentes de UI" },
+        { alt: "Página de estructura de la página de inicio", cap: "Desglose de la página de inicio" }
+      ],
+      facts: { "Rol": "Diseñadora UX/UI, autora del sistema de diseño", "Alcance": "Sistema de diseño, layouts, flujos de usuario, estructura de contenido", "Sitios": "entravision.com · /us-media · investor.entravision.com", "Tipografía": "Poppins, Open Sans", "Herramientas": "WordPress, Divi, Illustrator, Photoshop" } },
+    { tag: "UX/UI · Front-end · Branding · 2025",
+      coverAlt: "Una página de inicio de Noticias en un celular",
+      summary: "Diseño y front-end de Noticias, una plataforma de noticias en español para audiencias hispanas en EE. UU. Tiene su sede en Palm Springs y ediciones locales en más de 20 ciudades, cada una con el nombre de su mercado después de “Noticias”.",
+      problem: "La plataforma necesitaba un sistema de diseño modular que soportara muchos tipos de contenido, ediciones locales, espacios publicitarios y actualizaciones rápidas.",
+      approach: "Diseñé y desarrollé un front-end basado en componentes que mantiene todos los mercados consistentes y facilita que la plataforma crezca. También creé el logotipo y el brandbook de Noticias, que definieron la identidad visual y la dirección de diseño de todo el sitio. En el proceso usé reportes de GA4 (fuentes de tráfico, dispositivos, páginas principales, conversiones de formularios) para guiar las decisiones de diseño y contenido.",
+      chipsLabel: "Páginas que diseñé",
+      pages: ["Inicio", "Deportes", "Galerías de noticias: locales, regionales, nacionales, internacionales", "Radio", "Estaciones de radio individuales", "Anuncios locales", "Concursos", "Página interactiva del clima"],
+      contributionsLabel: "Aportes clave",
+      contributions: ["Plantillas modulares para noticias, deportes, galerías, radio y anuncios", "Un sistema de diseño que soporta contenido local para cada ciudad", "Colaboración multidisciplinaria con desarrolladores", "Identidad de marca: logotipo y brandbook"],
+      outcomes: ["Una experiencia consistente en más de 20 ediciones locales", "Flujos de publicación de contenido más eficientes", "Una base escalable para crecer"],
+      result: "Solo Noticias 48 McAllen recibe unos 274,000 visitantes y 618,000 páginas vistas al mes, cerca del 62% desde celular.",
+      stats: [["20+","ediciones locales"],["274K","visitantes al mes · Noticias 48"],["62%","tráfico móvil"]],
+      images: [
+        { alt: "Diseños de escritorio: inicio, deportes, noticias locales, artículo y estación de radio", cap: "Escritorio: inicio, deportes, noticias locales, artículo y estación de radio" },
+        { alt: "Pantallas móviles: deportes, clima, inicio, pie de artículo, menú y estación de radio", cap: "Móvil: deportes, clima interactivo, inicio, menú y radio" }
+      ],
+      facts: { "Rol": "Diseñadora UX/UI y visual, front-end", "Audiencia": "Audiencias hispanas en más de 20 ciudades de EE. UU.", "Año": "2025", "Entregables": "Sistema de diseño, plantillas, logotipo y brandbook", "Sitios": "noticiaspalmsprings.com · elboton.com · noticias48kvo.com", "Herramientas": "Figma, WordPress, HTML/CSS, GA4" } },
+    { name: "App NBC Palm Springs", tag: "Propuesta de diseño · Investigación UX · UX/UI · 2026",
+      coverAlt: "App rediseñada de NBC Palm Springs: pantallas de clima, inicio y alertas",
+      summary: "Una propuesta de rediseño para la app de noticias NBC Palm Springs, reconstruida alrededor de las cuatro preguntas por las que los residentes del Valle de Coachella realmente la abren.",
+      problem: "La app funciona como el sitio web de la estación dentro de una app. Está organizada alrededor de los programas y el inventario publicitario de la estación, no de lo que necesitan los residentes. Unas 87 mil personas la han instalado, pero solo unas 6,600 la abren en un mes: se descarga, pero no se vuelve un hábito.",
+      approach: "Audité la versión actual para iOS, leí las reseñas de la App Store y analicé al principal competidor local, KESQ. Encontré nueve áreas problemáticas, desde una navegación que sigue el organigrama de la estación hasta noticias viejas y una cinta de alertas que nadie puede leer. Con eso definí cinco principios de diseño, una nueva estructura de cinco pestañas y una lista priorizada de mejoras, y después diseñé y prototipé la nueva app para iPhone y Android, con un sistema visual que sigue siendo inconfundiblemente NBC.",
+      chipsLabel: "Cuatro preguntas, a un toque cada una",
+      pages: ["¿Qué está pasando cerca de mí?", "¿Mi camino está abierto?", "¿Cómo está el clima?", "¿Puedo verlo en vivo?"],
+      contributionsLabel: "Principios de diseño",
+      contributions: ["Lo local primero: las noticias del valle van al frente y las nacionales tienen su propia sección", "Fresco o marcado: cada nota muestra cuándo se publicó, y lo viejo sale de los espacios destacados", "Lo esencial a un toque: En vivo, Clima y Alertas tienen cada uno su pestaña", "Lo patrocinado se etiqueta: los anuncios se ven distintos a las noticias", "Tú eliges: tu ciudad y tus temas definen el feed y las alertas"],
+      outcomesLabel: "Qué cambia",
+      outcomes: ["Una barra de cinco pestañas (Inicio, En vivo, Clima, Alertas, Buscar) reemplaza un menú de 25 opciones", "Tarjetas de alerta que se pueden tocar reemplazan la cinta roja en movimiento", "Un onboarding corto define tu ciudad y los temas de tus alertas", "El clima se vuelve una herramienta real: pronóstico por hora y de 7 días, radar y cámaras en vivo", "Un formulario dentro de la app para enviar tips con fotos o video"],
+      result: "El siguiente paso es validar estos hallazgos con analíticas, la redacción y pruebas de usabilidad con tres tareas: consultar el clima de hoy, revisar el cierre de una calle y enviar un tip.",
+      stats: [["~87K","instalaciones"],["~6.6K","usuarios al mes"],["9","áreas problemáticas"]],
+      statsNote: "Las cifras de instalaciones y usuarios son estimaciones de terceros (AppGoblin).",
+      link: { label: "Abrir el prototipo interactivo ↗" },
+      images: [
+        { alt: "Pantallas rediseñadas: inicio de la app, onboarding, inicio y en vivo", cap: "El flujo completo: arranque, onboarding, inicio, en vivo y más" },
+        { alt: "Cinco principios de diseño", cap: "Cinco principios que guían cada pantalla" },
+        { alt: "Sistema visual: paleta de color, tipografía y componentes clave", cap: "Sistema visual: el azul marino de NBC, los colores del pavorreal como etiquetas de tema, tipografía Inter y componentes clave" }
+      ],
+      facts: { "Rol": "Investigadora UX y diseñadora UX/UI", "App": "NBC Palm Springs, iPhone y Android", "Editor": "OTA Broadcasting / Entravision", "Investigación": "Recorrido heurístico, reseñas de la App Store, análisis de competencia", "Año": "2026" } },
+    { name: "Community App", tag: "UX/UI · App comunitaria · Web y móvil",
+      coverAlt: "Feed de la app comunitaria en una laptop y un celular",
+      summary: "Una app comunitaria en español donde vecinos hispanos en ciudades de EE. UU. comparten noticias locales, alertas, recomendaciones y eventos. (El nombre real de la app es confidencial.)",
+      problem: "Los vecinos compartían avisos de tráfico, alertas de seguridad, mascotas perdidas y ofertas de empleo en grupos de chat dispersos. La app necesitaba un solo lugar donde esa información fuera fácil de publicar, fácil de revisar por tema y ciudad, y rápida de atender cuando algo es urgente.",
+      approach: "Trabajé en el diseño, los flujos de usuario y los mockups. Organicé el feed por comunidades (temas como tráfico, seguridad, comida, empleos y mascotas) y por ciudades, con vistas de Recientes, Tendencias, Noticias y Explorar. Los paneles laterales muestran publicaciones en tendencia, eventos locales, alertas de emergencia y normas de la comunidad, y el panel de notificaciones y el inicio de sesión con Google hacen que publicar sea rápido. Cada pantalla se adapta de escritorio a celular.",
+      chipsLabel: "En qué trabajé",
+      pages: ["Flujos de usuario", "Arquitectura de información", "Feed y tarjetas de publicación", "Filtros por comunidad y ciudad", "Notificaciones", "Inicio de sesión y onboarding", "Mockups de escritorio y móvil"],
+      contributionsLabel: "Decisiones de diseño clave",
+      contributions: ["Etiquetas de tema en cada publicación para revisar el feed en segundos", "Filtros por ciudad para que el feed sea realmente local", "Un panel dedicado a alertas de emergencia, separado de las publicaciones del día a día", "Normas de la comunidad visibles para marcar el tono de una conversación respetuosa"],
+      result: "Un feed claro y amigable que mantiene la información local a un toque, diseñado primero para celular y listo para crecer a más ciudades.",
+      images: [
+        { alt: "El feed comunitario en una laptop y un celular", cap: "El feed en escritorio y móvil" },
+        { alt: "El panel de notificaciones en una laptop y un celular", cap: "Panel de notificaciones" },
+        { alt: "Tres pantallas móviles: inicio de sesión y comunidades, el feed y notificaciones", cap: "Móvil: inicio de sesión y comunidades, feed, notificaciones" }
+      ],
+      facts: { "Rol": "Diseñadora UX/UI", "Alcance": "Diseño, flujos de usuario, mockups", "Plataformas": "Web, escritorio y móvil", "Idioma": "Español", "Ciudades": "McAllen, Houston, Denver, Austin y más" } },
+    { tag: "Logotipo e identidad de marca · 2025–26",
+      coverAlt: "Logotipo de Reyna 103.1 FM en blanco sobre fondo magenta",
+      summary: "El logotipo, el ícono de corona y la guía de logotipo de Reyna 103.1 FM, una estación de radio de Los Ángeles. También asesoré en la app de la estación como consultora.",
+      problem: "La estación necesitaba una identidad con presencia: un logotipo que se sienta seguro al aire y en redes sociales, y un ícono que se siga leyendo al tamaño de un ícono de app.",
+      approach: "Diseñé el logotipo principal en letra script y el isotipo de corona, y después los documenté en una guía de logotipo: paleta de color, tipografía, combinaciones de color aprobadas, área de protección y tamaño mínimo, usos incorrectos y un moodboard de marca. En la app, mi rol fue de consultoría, no de diseño.",
+      chipsLabel: "Lo que cubre la guía de logotipo",
+      pages: ["Logotipo principal", "Isotipo de corona", "Paleta de color", "Tipografía: Montserrat + Anton", "Combinaciones de color", "Área de protección y tamaño mínimo", "Usos incorrectos", "Moodboard de marca"],
+      result: "Una identidad completa y documentada que la estación puede aplicar de forma consistente, de las promociones al aire al ícono de su app.",
+      images: [
+        { alt: "Guía de logotipo: logotipo principal, isotipo, paleta de color y tipografía", cap: "Logotipo principal, isotipo de corona, paleta de color y tipografía" },
+        { alt: "Guía de logotipo: combinaciones de color, área de protección, tamaño mínimo y usos incorrectos", cap: "Combinaciones de color, área de protección, tamaño mínimo y usos incorrectos" },
+        { alt: "Moodboard de marca con imágenes de Los Ángeles y del estudio", cap: "Moodboard de marca" }
+      ],
+      facts: { "Rol": "Diseñadora de logotipo y marca; consultora de la app", "Cliente": "Reyna 103.1 FM (Los Ángeles)", "Entregables": "Logotipo, isotipo, guía de logotipo", "Tipografía": "Montserrat, Anton", "Herramientas": "Illustrator, Photoshop" } },
+    { tag: "Campaña sombrilla nacional · México · 2022–2024",
+      coverAlt: "Espectacular de Cuenta Nómina BanCoppel en el muro de un edificio",
+      summary: "La campaña sombrilla “El banco que quiero” para BanCoppel, el banco de Coppel, que se lanzó a nivel nacional en todo México. Participé desde el primer concepto hasta la última pieza, en digital e impresos.",
+      problem: "BanCoppel necesitaba un solo lenguaje visual que escalara de espectaculares enormes a pequeños anuncios digitales durante sus momentos promocionales más importantes, sin perder la marca en el camino.",
+      approach: "Ayudé a desarrollar un marco de campaña que convirtió un concepto central en layouts flexibles para cada formato. Participé desde el inicio: formé parte del equipo que aprobó el concepto de la campaña, estuve en la filmación de los comerciales para TV y supervisé las sesiones de fotos usadas en toda la campaña. A partir de ahí diseñé las piezas digitales (Google Ads, banners para landing pages, redes sociales) y las piezas impresas y de exterior (rotulación de vehículos, espectaculares, material POP y varias ediciones de un periódico impreso mensual), y supervisé la producción hasta la entrega e implementación.",
+      chipsLabel: "Lo que diseñé",
+      pages: ["Google Ads", "Banners para landing pages", "Redes sociales", "Espectaculares", "Rotulación de vehículos", "Banners en centros comerciales", "Material POP", "Señalización en sucursal", "Periódico impreso mensual"],
+      contributionsLabel: "Puntos clave del sistema",
+      contributions: ["Supervisé la producción, de la filmación y las sesiones de fotos al diseño, la entrega de piezas y la implementación", "Una retícula que se adapta a formatos exteriores y digitales", "Jerarquía clara para mensajes guiados por titulares", "Reglas visuales que mantienen todo legible a cualquier distancia y escala"],
+      outcomes: ["Un lanzamiento nacional fluido en todo México, en espacios físicos y digitales", "Alto recuerdo de marca gracias a la consistencia visual", "Una campaña de larga duración gracias a layouts adaptables"],
+      stats: [["2022–24","años de campaña"],["4","canales: OOH, POP, impresos, digital"],["100+","piezas diseñadas"]],
+      images: [
+        { alt: "Rotulación lateral de autobús: Tu Cuenta Nómina BanCoppel te da grandes beneficios", cap: "Rotulación: lateral de autobús" },
+        { alt: "Rotulación trasera de autobús con código QR", cap: "Rotulación: parte trasera de autobús" },
+        { alt: "Banner vertical de BanCoppel colgado en el atrio de un centro comercial", cap: "Banner en centro comercial" },
+        { alt: "Display en sucursal: Conviértete en Cliente Oro", cap: "Display POP en sucursal" },
+        { alt: "Figura de tamaño real en una tienda Coppel: Abre tu Cuenta Nómina BanCoppel aquí", cap: "Figura en tienda" },
+        { alt: "Páginas del periódico mensual de BanCoppel sobre la app, inversiones y la tarjeta de crédito Oro", cap: "Periódico mensual: diseñé varias ediciones" }
+      ],
+      facts: { "Rol": "Diseñadora Visual", "Cliente": "BanCoppel (Servicios Financieros Coppel)", "Campaña": "“El banco que quiero” (sombrilla)", "Alcance": "Nacional, México", "Canales": "OOH, POP, impresos, digital", "Año": "2022–2024", "Herramientas": "Adobe Suite" } },
+    { name: "Identidades de marca", tag: "Diseño de logotipos · Branding",
+      coverAlt: "Logotipos de LÜDI KIDS, Salo Fresh Produce, Call Me Calmy y All Call",
+      summary: "Logotipos e identidades de marca que he creado, desde un centro de aprendizaje infantil y una marca de productos frescos hasta una marca local de ropa y un evento interno de empresa.",
+      problem: "Cada marca necesitaba una identidad que conectara con su público a primera vista: juguetona y cálida para niños y papás, fresca y contundente para productos del campo, divertida para ropa, y con energía para una junta general.",
+      approach: "Para cada una desarrollé el logotipo y la identidad visual: la tipografía, el color y una pequeña idea gráfica que transmite la personalidad de la marca, como las hojas sobre la “o” de Salo o el megáfono alrededor de All Call.",
+      brandsLabel: "Logotipos seleccionados",
+      brands: [
+        { desc: "Un centro de aprendizaje y desarrollo infantil que ofrece apoyo académico basado en el juego y terapias para niños. Lema: “Donde los niños aprenden jugando.”" },
+        { desc: "Una organización de agricultura y productos frescos." },
+        { desc: "Una marca local de ropa." },
+        { desc: "La identidad de la junta corporativa mensual con el CEO." }
+      ],
+      result: "Identidades con personalidades muy distintas, pensadas para funcionar en señalización, redes sociales e impresos.",
+      facts: { "Rol": "Diseñadora de logotipos y marca", "Marcas": "LÜDI KIDS, Salo, Call Me Calmy, All Call", "Industrias": "Educación, agricultura, moda, corporativo", "Herramientas": "Illustrator, Photoshop, Procreate" } },
+    { name: "Createch Energías", tag: "Diseño impreso y digital · Energía solar",
+      coverAlt: "Logotipo de Createch Energías",
+      summary: "Diseño impreso y digital para Createch Energías, una empresa mexicana de paneles solares: de tarjetas de presentación y gafetes a mailings y contenido mensual para redes sociales.",
+      problem: "Los paneles solares son una compra grande y técnica. Createch necesitaba materiales que hicieran fácil entender el ahorro y que se vieran consistentes en todos lados, de una tarjeta de presentación al feed de Instagram.",
+      approach: "Trabajé dentro de la identidad verde y azul marino de Createch, en impresos y en digital. En impresos diseñé flyers, tarjetas de presentación y gafetes para empleados. En digital diseñé mailings y el contenido mensual para redes sociales: promociones con precios claros por paquete, publicaciones en co-branding con socios como Torke, publicaciones de ahorro para hogares y empresas, y publicaciones conmemorativas como el Día Mundial del Ahorro de Energía.",
+      chipsLabel: "Lo que diseñé",
+      pages: ["Flyers", "Tarjetas de presentación", "Gafetes para empleados", "Mailings", "Contenido mensual para redes", "Publicaciones promocionales", "Publicaciones conmemorativas"],
+      result: "Un look consistente y reconocible en cada punto de contacto, con ofertas fáciles de leer y comparar.",
+      images: [
+        { alt: "Tarjetas de presentación redondeadas de Createch Energías", cap: "Tarjetas de presentación" },
+        { alt: "Gafete de empleado de Createch Energías con lanyard verde", cap: "Gafete para empleados" },
+        { alt: "Mailing que compara los paquetes Estándar y Premium de paneles solares", cap: "Mailing: paquetes Estándar vs. Premium" },
+        { alt: "Publicación de promoción de verano en co-branding con Torke", cap: "Promoción en co-branding con Torke" },
+        { alt: "Publicación: 14 paneles para aire acondicionado, focos, estufa y refrigerador", cap: "Publicación de ahorro para hogares" },
+        { alt: "Publicación: hasta 90% de ahorro de luz para empresas", cap: "Publicación de ahorro para empresas" },
+        { alt: "Promoción de año nuevo con paneles solares sobre un techo de teja", cap: "Promoción de año nuevo" },
+        { alt: "Publicación conmemorativa del Día Mundial del Ahorro de Energía", cap: "Publicación conmemorativa: Día Mundial del Ahorro de Energía" }
+      ],
+      facts: { "Rol": "Diseñadora Gráfica", "Cliente": "Createch Energías (México)", "Industria": "Energía solar", "Canales": "Impresos, email, redes sociales", "Herramientas": "Illustrator, Photoshop" } },
+    { tag: "Campaña anual · Digital y redes · 2024",
+      coverAlt: "Historias y publicaciones de Coppel Pay sobre fondo amarillo",
+      summary: "La campaña anual de Coppel Pay, la sub-marca de pagos de Coppel que permite usar el Crédito Coppel en negocios afiliados, desde agencias de motos y aerolíneas hasta tiendas de belleza, salud y hogar.",
+      problem: "Coppel Pay necesitaba mostrar que el Crédito Coppel funciona más allá de las tiendas Coppel, con socios muy distintos, sin dejar de reconocerse al instante como Coppel en cada canal y formato, mes tras mes.",
+      approach: "Participé desde la conceptualización de la campaña y supervisé la sesión de fotos de la campaña anual. Después diseñé las piezas digitales (Google Ads, banners para landing pages y medios pagados) y el contenido para redes sociales (posts, videos, carruseles e historias), además de material POP. Construí un sistema consistente con el amarillo y azul de Coppel: preguntas como titulares, stickers tipo encuesta en las historias, y los logotipos y productos de los socios al frente.",
+      chipsLabel: "Lo que diseñé",
+      pages: ["Google Ads", "Banners para landing pages", "Medios pagados", "Posts", "Videos", "Carruseles", "Historias", "POP"],
+      contributionsLabel: "Puntos clave de la campaña",
+      contributions: ["Participación desde el concepto hasta la sesión de fotos anual", "Un look reconocible en decenas de socios y formatos", "Historias con stickers tipo encuesta para invitar a interactuar", "Fechas clave: vacaciones, Día del Niño, Día de las Madres, Hot Sale y Año Nuevo"],
+      result: "Una campaña constante y siempre activa que hizo que Coppel Pay se sintiera como una sola marca en todos lados, de las historias de Instagram a los banners web y el material en tienda.",
+      images: [
+        { alt: "Anuncio de Google Display: disfruta tu nueva moto Honda con Coppel Pay", cap: "Google Ads: Honda" },
+        { alt: "Post: viaja hoy y paga hasta en 12 meses con Viva Aerobus", cap: "Post: Viva Aerobus" },
+        { alt: "Post: estas vacaciones viajo a, con tres líneas de autobús", cap: "Post: vacaciones" },
+        { alt: "Historia con encuesta: ¿qué aventura eliges para explorar en tu nueva moto?", cap: "Historia con sticker de encuesta" },
+        { alt: "Historia con encuesta: ¿qué es lo mejor de comprar moto con tu Crédito Coppel?", cap: "Historia con sticker de encuesta" },
+        { alt: "Banner web vertical del Día del Niño con Salud Digna", cap: "Banner web: Día del Niño" },
+        { alt: "Banner para landing page de productos de belleza con Coppel Pay", cap: "Banner para landing page: belleza" },
+        { alt: "Banner móvil: mejora tu hogar con Coppel Pay en Hot Sale", cap: "Banner móvil: Hot Sale" }
+      ],
+      facts: { "Rol": "Diseñadora de Campañas", "Cliente": "Coppel Pay (Coppel)", "Alcance": "Concepto, supervisión de fotos, digital, redes, POP", "Canales": "Google Ads, web, medios pagados, redes, POP", "Año": "2024", "Herramientas": "Adobe Suite" } }
+  ],
+  books: [
+    { translation: "El pájaro rompe el cascarón. El cascarón es el mundo. Quien quiera nacer tiene que destruir un mundo.",
+      note: "Original en alemán; traducción mía." },
+    { title: "La Ilíada", author: "Homero, Canto VI",
+      translation: "Como las generaciones de las hojas, así son las de los hombres. El viento esparce las hojas por el suelo, pero el bosque, lleno de vida, hace brotar otras cuando vuelve la primavera.",
+      note: "Griego antiguo; traducción mía." }
+  ]
+};
+
+const T = {
+  en: { work:"Work", resume:"Resume", contact:"Contact", hi:"hola, I'm", pol1:"hola!", pol2:"at the studio",
+    pol1Alt:"Portrait of Daniela Valdez", pol2Alt:"Daniela smiling at a radio studio microphone",
+    iconAbout:"About Me", iconResume:"Resume.pdf", iconBooks:"Favorite books.txt", iconContact:"Say hi",
+    dockAbout:"About me", dockWork:"Work", dockResume:"Resume", dockBooks:"Favorite books", dockContact:"Say hi",
+    winAbout:"About Me", winWork:"Work", winResume:"Resume.pdf", winContact:"Say hi", winBooks:"Favorite books.txt",
+    about:"About", goodAt:"What I'm good at", tools:"Tools I use", languages:"Languages", seeWork:"See my work →",
+    selected:"Selected work", projects:"Projects", resumeK:"Resume", experience:"Experience", education:"Education",
+    certs:"Certifications & courses", linkedinFull:"Full history on LinkedIn ↗",
+    contactK:"Contact", letsTalk:"Let's talk.", open:"Open to collaborations, projects and coffee chats.",
+    email:"Email", canva:"More work on Canva", yourName:"Your name", mind:"What's on your mind?",
+    send:"Copy message & email me", copied:e=>`Copied! Paste it into an email to ${e}.`, sendTo:e=>`Send your note to ${e}.`,
+    msg:(f,n,m)=>`Hi ${f}, it's ${n}.\n\n${m}`,
+    shelf:"On my shelf", lines:"Favorite lines", three:"Two books I keep coming back to.",
+    project:"Project", challenge:"The challenge", did:"What I did", result:"The result", pages:"Pages I designed",
+    contrib:"Key contributions", outcome:"Outcome", gallery:"Gallery", screenshot:"screenshot",
+    close:"Close", expand:"Expand", dlResume:"Download my resume ↗",
+    lockTitle:"Gallery available on request", lockText:"This project includes internal company work, so the gallery and project files are private. Request access and I'll send you a code.",
+    reqBtn:"Request access", orWrite:"Or write to", codePh:"Access code", unlock:"Unlock", badCode:"That code didn't work. Please check it and try again.",
+    reqSubject:n=>`Portfolio access request: ${n}`, reqBody:n=>`Hi Daniela,\n\nI'd like to see the full ${n} gallery in your portfolio.\n\nName:\nCompany:\n`, appsTitle:"Apps I use most", appsTip:"Apps", brandFolder:"Branding & Marketing", uxGroup:"UX/UI & Web", otherAreas:"Other areas", brandIntro:"Beyond UX/UI, I've designed logos, brand identities, nationwide and year-round campaigns, print pieces and social media content.", langLabel:"Language", locale:"en-US" },
+  es: { work:"Trabajo", resume:"CV", contact:"Contacto", hi:"hola, soy", pol1:"¡hola!", pol2:"en el estudio",
+    pol1Alt:"Retrato de Daniela Valdez", pol2Alt:"Daniela sonriendo frente a un micrófono en un estudio de radio",
+    iconAbout:"Sobre mí", iconResume:"CV.pdf", iconBooks:"Libros favoritos.txt", iconContact:"Escríbeme",
+    dockAbout:"Sobre mí", dockWork:"Trabajo", dockResume:"CV", dockBooks:"Libros favoritos", dockContact:"Escríbeme",
+    winAbout:"Sobre mí", winWork:"Trabajo", winResume:"CV.pdf", winContact:"Escríbeme", winBooks:"Libros favoritos.txt",
+    about:"Sobre mí", goodAt:"En qué soy buena", tools:"Herramientas que uso", languages:"Idiomas", seeWork:"Ver mi trabajo →",
+    selected:"Trabajo seleccionado", projects:"Proyectos", resumeK:"CV", experience:"Experiencia", education:"Educación",
+    certs:"Certificaciones y cursos", linkedinFull:"Historial completo en LinkedIn ↗",
+    contactK:"Contacto", letsTalk:"Hablemos.", open:"Abierta a colaboraciones, proyectos y cafés.",
+    email:"Correo", canva:"Más trabajo en Canva", yourName:"Tu nombre", mind:"¿Qué tienes en mente?",
+    send:"Copiar mensaje y escribirme", copied:e=>`¡Copiado! Pégalo en un correo a ${e}.`, sendTo:e=>`Envía tu mensaje a ${e}.`,
+    msg:(f,n,m)=>`Hola ${f}, soy ${n}.\n\n${m}`,
+    shelf:"En mi librero", lines:"Frases favoritas", three:"Dos libros a los que siempre vuelvo.",
+    project:"Proyecto", challenge:"El reto", did:"Lo que hice", result:"El resultado", pages:"Páginas que diseñé",
+    contrib:"Aportes clave", outcome:"Resultado", gallery:"Galería", screenshot:"captura",
+    close:"Cerrar", expand:"Ampliar", dlResume:"Descargar mi CV ↗",
+    lockTitle:"Galería disponible bajo solicitud", lockText:"Este proyecto incluye trabajo interno de la empresa, así que la galería y los archivos del proyecto son privados. Solicita acceso y te enviaré un código.",
+    reqBtn:"Solicitar acceso", orWrite:"O escribe a", codePh:"Código de acceso", unlock:"Desbloquear", badCode:"Ese código no funcionó. Revísalo e inténtalo de nuevo.",
+    reqSubject:n=>`Solicitud de acceso al portafolio: ${n}`, reqBody:n=>`Hola Daniela,\n\nMe gustaría ver la galería completa de ${n} en tu portafolio.\n\nNombre:\nEmpresa:\n`, appsTitle:"Las apps que más uso", appsTip:"Apps", brandFolder:"Branding y Marketing", uxGroup:"UX/UI y Web", otherAreas:"Otras áreas", brandIntro:"Además de UX/UI, he diseñado logotipos, identidades de marca, campañas nacionales y anuales, impresos y contenido para redes sociales.", langLabel:"Idioma", locale:"es-MX" }
+};
+
+/* ---------- language ---------- */
+function merge(a,b,key){
+  if(b===undefined) return a;
+  if(key==="facts") return b;
+  if(Array.isArray(b)){
+    if(Array.isArray(a) && b.some(x=>x&&typeof x==="object"&&!Array.isArray(x))) return a.map((x,i)=>merge(x,b[i]));
+    return b;
+  }
+  if(b&&typeof b==="object"&&a&&typeof a==="object"){
+    const o={...a}; for(const k in b) o[k]=merge(a[k],b[k],k); return o;
+  }
+  return b;
+}
+/* Apps widget: add logo files as img/apps/<file> and set icon */
+const APPS = [
+  { name:"Figma", icon:"img/apps/figma.webp" }, { name:"Illustrator", icon:"img/apps/illustrator.webp" }, { name:"Photoshop", icon:"img/apps/photoshop.webp" },
+  { name:"Premiere Pro", icon:"img/apps/premiere.webp" }, { name:"Creative Cloud", icon:"img/apps/creative-cloud.webp" }, { name:"Claude", icon:"img/apps/claude.webp" },
+  { name:"VS Code", icon:"img/apps/vscode.webp" }, { name:"CapCut", icon:"img/apps/capcut.webp" }, { name:"Notion", icon:"img/apps/notion.webp" },
+  { name:"Trello", icon:"img/apps/trello.webp" }, { name:"Google Workspace", icon:"img/apps/google-workspace.webp" }
+];
+document.getElementById("appgrid").innerHTML = APPS.map(a=>`<div class="appt" title="${a.name}"><div class="tile${a.icon?"":" ph"}">${a.icon?`<img src="${a.icon}" alt="">`:""}</div><span>${a.name}</span></div>`).join("");
+const ME_ALL = { en: ME_EN, es: merge(ME_EN, ME_ES) };
+let LANG = "en";            /* English is always the default */
+let ME = ME_ALL.en;
+const t = k => T[LANG][k];
+
+/* ---------- icons ---------- */
+const folderSVG = c => `<svg viewBox="0 0 64 52" class="ico" aria-hidden="true"><path d="M2 9a4 4 0 0 1 4-4h17l5 5h30a4 4 0 0 1 4 4v32a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z" fill="${shade(c,-18)}"/><path d="M2 17a4 4 0 0 1 4-4h52a4 4 0 0 1 4 4v29a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z" fill="${c}"/></svg>`;
+const docSVG = kind => `<svg viewBox="0 0 48 60" class="ico doc" aria-hidden="true"><path d="M4 2h28l12 12v42a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff" stroke="#d6ccbf"/><path d="M32 2v12h12" fill="#f3ece2" stroke="#d6ccbf"/>${kind==='pdf'
+  ? '<text x="23" y="44" text-anchor="middle" font-size="10" font-weight="700" fill="#c8643f" font-family="DM Sans">PDF</text>'
+  : '<g stroke="#cbbfb0" stroke-width="2"><line x1="10" y1="26" x2="38" y2="26"/><line x1="10" y1="33" x2="38" y2="33"/><line x1="10" y1="40" x2="28" y2="40"/></g>'}</svg>`;
+function shade(hex, amt){const n=parseInt(hex.slice(1),16);const f=v=>Math.max(0,Math.min(255,v+amt));return '#'+((f(n>>16)<<16)|(f((n>>8)&255)<<8)|f(n&255)).toString(16).padStart(6,'0')}
+function tint(hex, p){const n=parseInt(hex.slice(1),16);const m=v=>Math.round(v+(255-v)*p);return `rgb(${m(n>>16)},${m((n>>8)&255)},${m(n&255)})`}
+
+/* Finder-style blue folder with an embossed glyph */
+const EMBOSS = {
+  p1:'<circle cx="32" cy="33" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M24 33h16M32 25c2.6 2.4 3.6 5 3.6 8s-1 5.6-3.6 8c-2.6-2.4-3.6-5-3.6-8s1-5.6 3.6-8z" fill="none" stroke="currentColor" stroke-width="2"/>',
+  p2:'<rect x="24" y="25" width="13" height="16" rx="1.5" fill="currentColor"/><rect x="38.5" y="29" width="3" height="12" rx="1.5" fill="currentColor"/><g stroke="#8cc4f7" stroke-width="1.6"><line x1="26.5" y1="29" x2="34.5" y2="29"/><line x1="26.5" y1="33" x2="34.5" y2="33"/><line x1="26.5" y1="37" x2="31.5" y2="37"/></g>',
+  p3:'<path d="M23 40.5l-1.5-12 6 5 4.5-8.5 4.5 8.5 6-5-1.5 12z" fill="currentColor"/><rect x="23" y="41.6" width="18" height="2.2" rx="1" fill="currentColor"/>',
+  p4:'<path d="M23 30.5h4l9-5v16l-9-5h-4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1z" fill="currentColor"/><path d="M27 36.5l1.5 5h3l-1.5-5" fill="currentColor"/><path d="M38.5 30a4 4 0 0 1 0 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+  p5:'<path d="M36.5 23.5a2.2 2.2 0 0 1 3.1 0l1.9 1.9a2.2 2.2 0 0 1 0 3.1L30 40l-6 1.6L25.6 36z" fill="currentColor"/>',
+  p7:'<circle cx="32" cy="36" r="5" fill="currentColor"/><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="32" y1="24" x2="32" y2="27"/><line x1="24" y1="28" x2="26" y2="30"/><line x1="40" y1="28" x2="38" y2="30"/><line x1="21" y1="36" x2="24" y2="36"/><line x1="40" y1="36" x2="43" y2="36"/></g>',
+  p8:'<circle cx="26" cy="29" r="4" fill="currentColor"/><circle cx="38" cy="29" r="4" fill="currentColor"/><path d="M18 42c1-5 4-7 8-7s7 2 8 7zM30 42c1-5 4-7 8-7s7 2 8 7z" fill="currentColor"/>',
+  brand:'<circle cx="27" cy="30" r="3.4" fill="currentColor"/><circle cx="37" cy="30" r="3.4" fill="currentColor"/><circle cx="32" cy="38.5" r="3.4" fill="currentColor"/>',
+  p9:'<rect x="21" y="26" width="22" height="15" rx="2.5" fill="currentColor"/><rect x="21" y="29.5" width="22" height="3" fill="#fcc9a8"/><rect x="24" y="35.5" width="6" height="2" rx="1" fill="#fcc9a8"/>',
+  p6:'<rect x="26" y="22" width="12" height="21" rx="2.5" fill="currentColor"/><rect x="28" y="25.5" width="8" height="13" rx="1" fill="#8cc4f7"/><line x1="30" y1="40.6" x2="34" y2="40.6" stroke="#8cc4f7" stroke-width="1.2" stroke-linecap="round"/>'
+};
+const finderSVG = (id,warm) => `<svg viewBox="0 0 64 52" class="ico finder${warm?" warm":""}" aria-hidden="true">
+  <defs>
+    <linearGradient id="fb-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${warm?"#f2a07a":"#5aa9f0"}"/><stop offset="1" stop-color="${warm?"#e47f55":"#3b8ee4"}"/></linearGradient>
+    <linearGradient id="ff-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${warm?"#fcc9a8":"#9cd2fb"}"/><stop offset="1" stop-color="${warm?"#f6a77f":"#6db6f5"}"/></linearGradient>
+  </defs>
+  <path d="M3 8.5A3.5 3.5 0 0 1 6.5 5h15.2c1 0 1.9.4 2.6 1.1L27.5 9H57.5A3.5 3.5 0 0 1 61 12.5V18H3z" fill="url(#fb-${id})"/>
+  <path d="M3 15.5A3.5 3.5 0 0 1 6.5 12h51a3.5 3.5 0 0 1 3.5 3.5v29a3.5 3.5 0 0 1-3.5 3.5h-51A3.5 3.5 0 0 1 3 44.5z" fill="url(#ff-${id})"/>
+  <path d="M3.5 15a3 3 0 0 1 3-2.5h51a3 3 0 0 1 3 2.5" fill="none" stroke="${warm?"#fde0cc":"#c4e4fd"}" stroke-width="1"/>
+  <g color="${warm?"#d9693f":"#4a9ae9"}" opacity=".75">${EMBOSS[id.replace(/l$/,"")]||""}</g>
+</svg>`;
+
+const pad = i => String(i+1).padStart(2,"0");
+const UX_COUNT = 4;
+const ICONS = [
+  { id:"about",   label:()=>t("iconAbout"),   svg:folderSVG("#f0b89c"), x:10, y:52 },
+  { id:"resume",  label:()=>t("iconResume"),  svg:docSVG("pdf"),        x:24, y:40 },
+  { id:"books",   label:()=>t("iconBooks"),   svg:docSVG("txt"),        x:23, y:62 },
+  { id:"contact", label:()=>t("iconContact"), svg:folderSVG("#b5c9ae"), x:11, y:78 },
+  ...ME_EN.projects.slice(0,UX_COUNT).map((p,i)=>({ id:p.id, proj:true, label:()=>`${pad(i)} — ${ME.projects[i].name}`, svg:finderSVG(p.id),
+    x:[79,90,77,90][i], y:[10,26,44,60][i] })),
+  { id:"p4", proj:true, warm:true, label:()=>{const i=ME.projects.findIndex(p=>p.id==="p4");return `${pad(i)} — ${ME.projects[i].name}`}, svg:finderSVG("p4",true), x:66, y:60 },
+  { id:"branding", proj:true, warm:true, label:()=>t("brandFolder"), svg:finderSVG("brand",true), x:78, y:74 }
+];
+
+/* ---------- windows ---------- */
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const projRows=(a,b,warm)=>ME.projects.slice(a,b).map((p,j)=>{const i=a+j;return `<button data-open="${p.id}"><span class="sw">${finderSVG(p.id+"l",warm)}</span>
+      <span><b>${pad(i)} · ${esc(p.name)}</b><small>${esc(p.tag)}</small></span><span class="arr">→</span></button>`}).join("");
+const WIN = {
+  about:{ title:()=>t("winAbout"), w:560, html:()=>`
+    <div class="about-top"><img class="avatar" src="img/me-avatar.webp" alt="${esc(ME.full)}">
+      <div><div class="kicker">${t("about")}</div><h2>${esc(ME.full)}</h2><p class="muted">${esc(ME.roleShort)} · ${esc(ME.location)}</p></div></div>
+    ${ME.about.map(p=>`<p>${esc(p)}</p>`).join("")}
+    <h3>${t("goodAt")}</h3><div class="chips">${ME.skills.map(s=>`<span class="chip">${esc(s)}</span>`).join("")}</div>
+    <h3>${t("tools")}</h3><div class="chips">${ME.tools.map(s=>`<span class="chip c">${esc(s)}</span>`).join("")}</div>
+    <h3>${t("languages")}</h3><div class="chips">${ME.languages.map(s=>`<span class="chip l">${esc(s)}</span>`).join("")}</div>
+    <button class="btn" data-open="projects">${t("seeWork")}</button>` },
+  projects:{ title:()=>t("winWork"), w:540, html:()=>`
+    <div class="kicker">${t("selected")}</div><h2>${t("projects")}</h2>
+    <h3>${t("uxGroup")}</h3>
+    <div class="plist">${projRows(0,UX_COUNT)}</div>
+    <h3>${t("brandFolder")}</h3>
+    <div class="plist">${projRows(UX_COUNT,ME.projects.length,true)}</div>` },
+  branding:{ title:()=>t("brandFolder"), w:540, html:()=>`
+    <div class="kicker">${t("otherAreas")}</div><h2>${t("brandFolder")}</h2>
+    <p class="muted">${t("brandIntro")}</p>
+    <div class="plist" style="margin-top:14px">${projRows(UX_COUNT,ME.projects.length,true)}</div>` },
+  resume:{ title:()=>t("winResume"), w:580, html:()=>`
+    <div class="kicker">${t("resumeK")}</div>
+    <div class="dlrow"><a class="btn" href="${esc(ME.resumeUrl)}" target="_blank" rel="noopener">${t("dlResume")}</a><a class="btn ghost" href="${esc(ME.linkedin)}" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+    <h2 style="margin-top:22px">${t("experience")}</h2>
+    <div class="tl">${ME.experience.map(e=>`<div><b>${esc(e.role)} · ${esc(e.org)}</b><small>${esc(e.when)}</small><p>${esc(e.note)}</p></div>`).join("")}</div>
+    <h3>${t("education")}</h3>
+    <div class="tl">${ME.education.map(e=>`<div><b>${esc(e.role)}</b><small>${esc(e.org)} · ${esc(e.when)}</small></div>`).join("")}</div>
+    <h3>${t("certs")}</h3><div class="chips">${ME.certs.map(s=>`<span class="chip">${esc(s)}</span>`).join("")}</div>
+    <h3>${t("languages")}</h3><div class="chips">${ME.languages.map(s=>`<span class="chip l">${esc(s)}</span>`).join("")}</div>
+    <a class="btn" href="${esc(ME.resumeUrl)}" target="_blank" rel="noopener">${t("dlResume")}</a>` },
+  contact:{ title:()=>t("winContact"), w:440, html:()=>`
+    <div class="kicker">${t("contactK")}</div><h2>${t("letsTalk")}</h2>
+    <p class="muted">${t("open")}</p>
+    <div class="links" style="margin-top:14px">
+      <a href="mailto:${esc(ME.email)}">${t("email")} <span>${esc(ME.email)}</span></a>
+      <a href="${esc(ME.linkedin)}" target="_blank" rel="noopener">LinkedIn <span>/in/danielavo ↗</span></a>
+    </div>` },
+  books:{ title:()=>t("winBooks"), w:520, html:()=>`
+    <div class="kicker">${t("shelf")}</div><h2>${t("lines")}</h2>
+    <p class="muted">${t("three")}</p>
+    ${ME.books.map(b=>`<div class="book" style="--b:${b.color}"><div class="spine"></div><div>
+      <b>${esc(b.title)}</b><small>${esc(b.author)}</small>
+      ${b.original?`<p class="orig">${esc(b.original)}</p>`:""}
+      ${b.translation?`<p class="tr">“${esc(b.translation)}”</p>`:`<p class="tr empty">${esc(b.note)}</p>`}
+      ${b.translation?`<small class="fn">${esc(b.note)}</small>`:""}
+    </div></div>`).join("")}` }
+};
+/* ---------- gallery lock (a soft lock: hides galleries until a visitor enters the code you send them) ---------- */
+const ACCESS_HASH = "b0ffd23a25d9f31e6ced2f6bd6645f0eea6c193b02733c6953a476567416ec7a";
+let UNLOCKED = false; try{ UNLOCKED = sessionStorage.getItem("pf-unlocked")==="1"; }catch(_){}
+const lockCard = p => {
+  const subj = encodeURIComponent(t("reqSubject")(p.name)), body = encodeURIComponent(t("reqBody")(p.name));
+  return `<div class="lock"><div class="lk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+    <h4>${t("lockTitle")}</h4><p>${t("lockText")}</p>
+    <a class="btn" href="mailto:${esc(ME.email)}?subject=${subj}&body=${body}">${t("reqBtn")}</a>
+    <p class="lk-mail">${t("orWrite")} <b>${esc(ME.email)}</b></p>
+    <form class="lk-form"><input type="password" autocomplete="off" placeholder="${t("codePh")}" aria-label="${t("codePh")}"><button class="btn ghost" type="submit">${t("unlock")}</button></form>
+    <p class="lk-err" role="status"></p></div>`;
+};
+async function sha256(txt){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(txt));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+document.addEventListener("submit",async e=>{
+  const f=e.target.closest(".lk-form"); if(!f) return; e.preventDefault();
+  const v=f.querySelector("input").value.trim().toUpperCase(); const err=f.parentElement.querySelector(".lk-err");
+  let ok=false; try{ ok=(await sha256(v))===ACCESS_HASH; }catch(_){}
+  if(!ok){ err.textContent=t("badCode"); return; }
+  UNLOCKED=true; try{sessionStorage.setItem("pf-unlocked","1")}catch(_){}
+  wins.querySelectorAll(".win").forEach(w=>fillWin(w,w.dataset.id));
+});
+const list=(h,arr)=>arr?`<h3>${esc(h)}</h3><ul class="ticks">${arr.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:"";
+ME_EN.projects.forEach((p0,i)=>{
+  WIN[p0.id]={ title:()=>ME.projects[i].name, w:p0.images?860:760, big:true, html:()=>{ const p=ME.projects[i]; return `
+    ${p.coverPhoto
+      ? `<div class="cover photo"><img src="${esc(p.coverPhoto)}" alt="${esc(p.coverAlt||"")}" style="object-position:${p.coverPos||"center"}"></div>`
+      : p.cover
+      ? `<div class="cover img" style="--cc:${p.color}"><div class="ct"><small>${t("project")} ${pad(i)}</small><b>${esc(p.logo||p.name)}</b><span>${esc(p.tag)}</span></div><img src="${esc(p.cover)}" alt="${esc(p.coverAlt||"")}"></div>`
+      : `<div class="cover" style="background:linear-gradient(135deg,${p.color},${tint(p.color,.45)})">${esc(p.name)}</div>`}
+    <div class="case"><div>
+      <div class="kicker">${t("project")} ${pad(i)} · ${esc(p.tag)}</div>
+      <h2>${esc(p.name)}</h2><p class="muted" style="font-size:16px">${esc(p.summary)}</p>
+      ${p.stats?`<div class="stats">${p.stats.map(([n,l])=>`<div><b style="color:${p.color}">${esc(n)}</b><small>${esc(l)}</small></div>`).join("")}</div>`:""}
+      ${p.statsNote?`<p class="snote">${esc(p.statsNote)}</p>`:""}
+      <h3>${t("challenge")}</h3><p>${esc(p.problem)}</p>
+      <h3>${t("did")}</h3><p>${esc(p.approach)}</p>
+      ${p.pages?`<h3>${esc(p.chipsLabel||t("pages"))}</h3><div class="chips">${p.pages.map(x=>`<span class="chip c">${esc(x)}</span>`).join("")}</div>`:""}
+      ${list(p.contributionsLabel||t("contrib"),p.contributions)}
+      ${p.outcomes?list(p.outcomesLabel||t("outcome"),p.outcomes):""}
+      ${p.outcomes?`<p style="margin-top:10px">${esc(p.result)}</p>`:`<h3>${t("result")}</h3><p>${esc(p.result)}</p>`}
+      ${p.link&&!(p.linkLocked&&!UNLOCKED)?`<a class="btn" href="${esc(p.link.href)}" target="_blank" rel="noopener">${esc(p.link.label)}</a>`:""}
+    </div>
+    <dl class="facts">${Object.entries(p.facts).map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl></div>
+    ${p.brands?`<h3 style="margin:28px 32px 10px">${esc(p.brandsLabel)}</h3><div class="brands">${p.brands.map(br=>`<figure class="brand"><img src="${esc(br.img)}" alt="${esc(br.name)} logo" loading="lazy" data-zoom><figcaption><b>${esc(br.name)}</b><span>${esc(br.desc)}</span></figcaption></figure>`).join("")}</div>`:`<h3 style="margin:28px 32px 10px">${t("gallery")}</h3>`}
+    ${p.locked&&!UNLOCKED?lockCard(p):p.brands?"":p.images
+      ? `<div class="shots">${p.images.map(m=>`<figure class="s${m.span||6}${m.tall?" tall":""}${m.fit?" fit":""}${m.doc?" doc":""}${m.sq?" sq":""}"><img src="${esc(m.src)}" alt="${esc(m.alt)}" loading="lazy" data-zoom><figcaption>${esc(m.cap)}</figcaption></figure>`).join("")}</div>`
+      : `<div class="gallery">${[.55,.7,.4].map(tt=>`<div style="background:${tint(p.color,tt)}">${t("screenshot")}</div>`).join("")}</div>`}`; } };
+});
+
+/* ---------- build page ---------- */
+const iconsEl = document.getElementById("icons");
+ICONS.forEach(ic=>{
+  const b=document.createElement("button");b.className="icon"+(ic.proj?" proj":"")+(ic.warm?" warm":"");b.dataset.id=ic.id;
+  b.style.left=ic.x+"%";b.style.top=ic.y+"%";
+  b.innerHTML=ic.svg+`<span class="lbl"></span>`;
+  iconsEl.appendChild(b);
+  makeDraggable(b,b,()=>openWin(ic.id));
+});
+
+const DOCK = [
+  ["about","dockAbout","#e8956f",'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>'],
+  ["projects","dockWork","#8fa98a",'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'],
+  ["resume","dockResume","#d9a441",'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg>'],
+  ["books","dockBooks","#b48ab0",'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4z"/><path d="M20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/></svg>'],
+  ["contact","dockContact","#7b8fb8",'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>']
+];
+const dock = document.getElementById("dock");
+DOCK.forEach(([id,key,c,svg],i)=>{
+  if(i===DOCK.length-1){const s=document.createElement("span");s.className="sep";dock.appendChild(s)}
+  const b=document.createElement("button");b.className="app";b.dataset.open=id;b.dataset.tip=key;b.style.setProperty("--c",c);
+  b.innerHTML=svg+`<span class="tip"></span>`;dock.appendChild(b);
+});
+
+function renderStatic(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));
+  document.querySelectorAll("[data-i18n-alt]").forEach(el=>el.alt=t(el.dataset.i18nAlt));
+  document.getElementById("heroName").innerHTML = (ME.first+".").split("").map(c=>`<span class="l" aria-hidden="true">${esc(c)}</span>`).join("");
+  document.getElementById("heroName").setAttribute("aria-label", ME.full);
+  document.getElementById("heroRole").innerHTML = ME.role;
+  ICONS.forEach(ic=>{ iconsEl.querySelector(`.icon[data-id="${ic.id}"] .lbl`).textContent = ic.label(); });
+  dock.querySelectorAll(".app").forEach(a=>{ const tip=t(a.dataset.tip); a.querySelector(".tip").textContent=tip; a.setAttribute("aria-label",tip); });
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.lang===LANG)));
+  tick();
+}
+function setLang(l){
+  if(!T[l]||l===LANG) return;
+  LANG=l; ME=ME_ALL[l];
+  renderStatic();
+  wins.querySelectorAll(".win").forEach(w=>fillWin(w, w.dataset.id));
+}
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
+
+/* Apps launcher in the dock */
+{
+  const b=document.createElement("button"); b.className="app launch"; b.id="appsBtn"; b.dataset.tip="appsTip";
+  b.innerHTML=`<svg viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="5" width="24" height="5" rx="2.5" fill="#d9dce2"/><circle cx="8.2" cy="7.5" r="1.3" fill="none" stroke="#8a8f99" stroke-width=".9"/>
+  <rect x="5" y="14" width="6" height="6" rx="1.6" fill="#ff9a4d"/><rect x="14" y="14" width="6" height="6" rx="1.6" fill="#f25fa7"/><rect x="23" y="14" width="6" height="6" rx="1.6" fill="#3fd2a0"/>
+  <rect x="5" y="23" width="6" height="6" rx="1.6" fill="#c08af0"/><rect x="14" y="23" width="6" height="6" rx="1.6" fill="#5bb6f5"/><rect x="23" y="23" width="6" height="6" rx="1.6" fill="#a9adb5"/></svg><span class="tip"></span>`;
+  dock.insertBefore(b, dock.querySelector(".sep"));
+  const w=document.getElementById("appsw");
+  b.addEventListener("click",()=>{ w.hidden=!w.hidden; b.classList.toggle("on",!w.hidden); b.setAttribute("aria-expanded",String(!w.hidden)); if(!w.hidden&&matchMedia("(max-width:720px)").matches) w.scrollIntoView({behavior:"smooth",block:"center"}); });
+  b.setAttribute("aria-controls","appsw"); b.setAttribute("aria-expanded","false");
+}
+document.addEventListener("click",e=>{const tg=e.target.closest("[data-open]");if(tg&&!tg.classList.contains("icon"))openWin(tg.dataset.open)});
+
+/* ---------- window manager ---------- */
+const wins = document.getElementById("wins"); let z=30, cascade=0;
+function fillWin(w,id){
+  const def=WIN[id]; const scroll=w.querySelector(".body")?.scrollTop||0;
+  w.querySelector(".wt").textContent=def.title();
+  w.querySelector(".x").setAttribute("aria-label",t("close")); w.querySelector(".z").setAttribute("aria-label",t("expand"));
+  const body=w.querySelector(".body"); body.innerHTML=def.html(); body.scrollTop=scroll;
+  const f=body.querySelector("#cform");
+  if(f) f.addEventListener("submit",async ev=>{ev.preventDefault();
+    const [n,m]=f.querySelectorAll("input,textarea"); const txt=t("msg")(ME.first,n.value,m.value);
+    const out=f.querySelector("#cmsg");
+    try{await navigator.clipboard.writeText(txt);out.textContent=t("copied")(ME.email)}
+    catch(_){out.textContent=t("sendTo")(ME.email)}
+  });
+}
+function openWin(id){
+  const def=WIN[id]; if(!def) return;
+  let w=wins.querySelector(`.win[data-id="${id}"]`);
+  if(w){ w.style.zIndex=++z; return; }
+  w=document.createElement("section"); w.className="win"+(def.big?" big":""); w.dataset.id=id;
+  const W=Math.min(def.w, innerWidth-24);
+  w.style.width=W+"px";
+  const deskH=innerHeight-32;
+  w.style.left=Math.max(12,(innerWidth-W)/2 + (cascade%5)*26 - 52)+"px";
+  w.style.top=Math.max(12, deskH*0.08 + (cascade%5)*22)+"px"; cascade++;
+  w.style.zIndex=++z;
+  w.innerHTML=`<div class="bar"><div class="dots"><button class="x"></button><i class="m"></i><button class="z"></button></div><span class="wt"></span></div><div class="body"></div>`;
+  wins.appendChild(w);
+  fillWin(w,id);
+  w.addEventListener("pointerdown",()=>w.style.zIndex=++z);
+  w.querySelector(".x").onclick=e=>{e.stopPropagation();w.classList.add("closing");setTimeout(()=>{w.remove();syncDock()},140)};
+  w.querySelector(".z").onclick=e=>{e.stopPropagation();w.classList.toggle("max")};
+  w.querySelector(".bar").addEventListener("dblclick",()=>w.classList.toggle("max"));
+  makeDraggable(w.querySelector(".bar"),w);
+  syncDock();
+}
+function syncDock(){dock.querySelectorAll(".app[data-open]").forEach(a=>a.classList.toggle("on",!!wins.querySelector(`.win[data-id="${a.dataset.open}"]`)))}
+
+/* ---------- drag ---------- */
+function makeDraggable(handle, el, onTap){
+  handle.addEventListener("pointerdown",e=>{
+    if(e.target.closest(".dots")) return;
+    if(matchMedia("(max-width:720px)").matches && el.classList.contains("icon")) { return; }
+    const desk=document.getElementById("desk").getBoundingClientRect();
+    if(el.classList.contains("appsw")&&el.style.transform!=="none"){const r0=el.getBoundingClientRect();el.style.transform="none";el.style.bottom="auto";el.style.left=(r0.left-desk.left)+"px";el.style.top=(r0.top-desk.top)+"px";}
+    const r=el.getBoundingClientRect(); const ox=e.clientX-r.left, oy=e.clientY-r.top;
+    const isIcon=el.classList.contains("icon"); let moved=false; const sx=e.clientX, sy=e.clientY;
+    handle.setPointerCapture(e.pointerId);
+    const mv=ev=>{
+      if(!moved && Math.hypot(ev.clientX-sx,ev.clientY-sy)<4) return;
+      moved=true; el.classList.add("dragging");
+      if(el.classList.contains("max")) return;
+      let x=ev.clientX-desk.left-ox, y=ev.clientY-desk.top-oy;
+      y=Math.max(0,Math.min(y,desk.height-40)); x=Math.max(-r.width+80,Math.min(x,desk.width-80));
+      el.style.left=(isIcon? x+r.width/2 : x)+"px"; el.style.top=y+"px";
+    };
+    const up=()=>{handle.removeEventListener("pointermove",mv);handle.removeEventListener("pointerup",up);el.classList.remove("dragging");if(!moved&&onTap)onTap()};
+    handle.addEventListener("pointermove",mv);handle.addEventListener("pointerup",up);
+  });
+  if(onTap) handle.addEventListener("click",e=>{ if(matchMedia("(max-width:720px)").matches) onTap(); });
+  handle.addEventListener("keydown",e=>{if(e.key==="Enter"&&onTap){e.preventDefault();onTap()}});
+}
+document.querySelectorAll("[data-drag]").forEach(el=>makeDraggable(el,el));
+
+/* ---------- lightbox ---------- */
+document.addEventListener("click",e=>{const im=e.target.closest("[data-zoom]");if(!im)return;
+  const lb=document.createElement("div");lb.className="lightbox";lb.innerHTML=`<img src="${im.src}" alt="${esc(im.alt)}">`;
+  lb.onclick=()=>lb.remove();document.body.appendChild(lb);});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".lightbox").forEach(l=>l.remove())});
+
+/* ---------- clock ---------- */
+function tick(){const d=new Date(), loc=t("locale");
+  document.getElementById("clock").textContent=d.toLocaleTimeString(loc, {hour:"numeric",minute:"2-digit"});
+  document.getElementById("date").textContent=d.toLocaleDateString(loc, {weekday:"short",month:"short",day:"numeric"});}
+renderStatic(); setInterval(tick,15000);
+
+/* ---------- pixel-art landscape (original, drawn in code) ---------- */
+(function(){
+  const cv=document.getElementById("scene"); if(!cv) return;
+  const ctx=cv.getContext("2d");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const H=216; let W=384;
+  const hex=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+  const css=c=>`rgb(${c[0]|0},${c[1]|0},${c[2]|0})`;
+  const mix=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];
+  const BAYER=[[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]].map(r=>r.map(v=>(v+.5)/16));
+  function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  function noise1(seed){const r=rng(seed),v=[];for(let i=0;i<64;i++)v.push(r());return x=>{const i=Math.floor(x),f=x-i,a=v[((i%64)+64)%64],b=v[(((i+1)%64)+64)%64],s=f*f*(3-2*f);return a+(b-a)*s}}
+
+  let sky, land, clouds=[], leaves=[], birds=[], horizon, lakeTop, lakeBot, treeBox;
+  const P={ skyTop:hex("#c9a7c4"), skyMid:hex("#f2c6b4"), skyLow:hex("#fbdcb8"), skyGlow:hex("#ffe9c9"),
+    far:hex("#d9b3b0"), farHi:hex("#e7c6bf"), snow:hex("#fff4e6"),
+    peak:hex("#b98f97"), peakHi:hex("#d6aeaa"), peakDk:hex("#a47f88"),
+    hill:hex("#b7a37a"), hillHi:hex("#cdb98a"),
+    pine:hex("#7f7a55"), pineHi:hex("#968d60"), pineDk:hex("#6a6548"),
+    grass:hex("#dcc28a"), grassHi:hex("#e9d39c"), grassDk:hex("#cdb27a"),
+    water:hex("#e9c3b1"), waterHi:hex("#fff1df"),
+    bark:hex("#7a5641"), barkHi:hex("#946a50"), leaf:hex("#a9a564"), leafHi:hex("#cfc27c"), leafDk:hex("#8c8a55") };
+
+  function makeCanvas(w,h){const c=document.createElement("canvas");c.width=w;c.height=h;return c}
+  function px(c,x,y,col){c.fillStyle=css(col);c.fillRect(x|0,y|0,1,1)}
+
+  function build(){
+    const ratio=innerWidth/Math.max(1,innerHeight);
+    W=Math.round(Math.min(560,Math.max(60,H*ratio)));
+    cv.width=W; cv.height=H;
+    horizon=Math.round(H*.70); lakeTop=horizon; lakeBot=Math.round(H*.84);
+    const R=rng(7);
+
+    /* sky with dithered bands */
+    sky=makeCanvas(W,H); const s=sky.getContext("2d");
+    const stops=[[0,P.skyTop],[.5,P.skyMid],[.82,P.skyLow],[1,P.skyGlow]];
+    for(let y=0;y<H;y++){
+      const t=Math.min(1,y/horizon);
+      let i=0; while(i<stops.length-2&&t>stops[i+1][0]) i++;
+      const [t0,c0]=stops[i],[t1,c1]=stops[i+1]; const u=(t-t0)/(t1-t0);
+      const steps=6, q=u*steps, lo=Math.floor(q), fr=q-lo;
+      for(let x=0;x<W;x++){
+        const k=(fr>BAYER[y&3][x&3]?lo+1:lo)/steps;
+        px(s,x,y,mix(c0,c1,Math.min(1,k)));
+      }
+    }
+    for(let i=0;i<4;i++){const x=R()*W|0,y=R()*horizon*.45|0;px(s,x,y,hex("#fff6ea"))}
+    for(let i=0;i<3;i++){const y=(horizon*.35+R()*horizon*.45)|0,x=R()*W|0,l=8+R()*30|0;s.fillStyle="rgba(255,255,255,.22)";s.fillRect(x,y,l,1)}
+
+    /* land */
+    land=makeCanvas(W,H); const g=land.getContext("2d");
+    const n1=noise1(11),n2=noise1(23),n3=noise1(37),n4=noise1(51);
+    // far range
+    for(let x=0;x<W;x++){
+      const top=Math.round(horizon-30-n1(x/26)*26-n2(x/9)*6);
+      for(let y=top;y<horizon;y++){
+        const slopeL=n1((x-1)/26)-n1((x+1)/26)>0;
+        let c=slopeL?P.farHi:P.far;
+        if(y<top+3&&top<horizon-44) c=P.snow;
+        px(g,x,y,c);
+      }
+    }
+    // big peak (right of center)
+    const pk=W*.68, pkTop=horizon-92, base=W*.42;
+    for(let x=0;x<W;x++){
+      const d=Math.abs(x-pk)/base; if(d>1) continue;
+      const rough=n3(x/7)*6-3;
+      const top=Math.round(pkTop+Math.pow(d,1.25)*92+rough);
+      for(let y=top;y<horizon;y++){
+        const left=x<pk-(y-pkTop)*.15;
+        let c=left?P.peakHi:P.peak;
+        if(y<pkTop+26+n4(x/5)*8 && y<top+14) c=left?P.snow:mix(P.snow,P.peakHi,.35);
+        px(g,x,y,c);
+      }
+    }
+    // second peak left
+    const pk2=W*.24, pk2Top=horizon-60, b2=W*.26;
+    for(let x=0;x<W;x++){
+      const d=Math.abs(x-pk2)/b2; if(d>1) continue;
+      const top=Math.round(pk2Top+Math.pow(d,1.2)*60+n4(x/6)*5-2);
+      for(let y=top;y<horizon;y++){
+        const left=x<pk2; let c=left?mix(P.peakHi,P.far,.3):mix(P.peak,P.far,.25);
+        if(y<pk2Top+12&&y<top+8) c=P.snow;
+        px(g,x,y,c);
+      }
+    }
+    // rolling hills
+    for(let x=0;x<W;x++){
+      const top=Math.round(horizon-16-n2(x/40)*12);
+      for(let y=top;y<horizon;y++) px(g,x,y,(y<top+2)?P.hillHi:P.hill);
+    }
+    // pine forest
+    const pines=[]; for(let x=-4;x<W+4;x+=7+(R()*12|0)) if(R()<.75) pines.push([x,horizon-3-(R()*5|0),8+(R()*10|0)]);
+    pines.sort((a,b)=>a[1]-b[1]);
+    for(const [cx,by,h] of pines){
+      for(let j=0;j<h;j++){
+        const w=Math.max(0,Math.round((j/h)*4.2-((j%3)===0?1:0)));
+        const y=by-h+j;
+        for(let dx=-w;dx<=w;dx++){
+          const c=dx<0?P.pineHi:(dx>w-2?P.pineDk:P.pine);
+          px(g,cx+dx,y,c);
+        }
+      }
+      for(let y=by;y<horizon;y++) px(g,cx,y,P.pineDk);
+    }
+    for(let x=0;x<W;x++) for(let y=horizon-2;y<horizon;y++) px(g,x,y,P.pineDk);
+
+    // lake: reflection of sky+land
+    const tmp=makeCanvas(W,H),t=tmp.getContext("2d"); t.drawImage(sky,0,0); t.drawImage(land,0,0);
+    const src=t.getImageData(0,0,W,H).data;
+    const img=g.getImageData(0,0,W,H), d=img.data;
+    for(let y=lakeTop;y<lakeBot;y++){
+      const sy=2*lakeTop-y-1; const off=(Math.sin(y*1.7)*1.2)|0;
+      for(let x=0;x<W;x++){
+        const sx=Math.min(W-1,Math.max(0,x+off)); const i=(sy*W+sx)*4, o=(y*W+x)*4;
+        const k=.42+((y-lakeTop)/(lakeBot-lakeTop))*.25;
+        d[o]=src[i]*(1-k)+P.water[0]*k; d[o+1]=src[i+1]*(1-k)+P.water[1]*k; d[o+2]=src[i+2]*(1-k)+P.water[2]*k; d[o+3]=255;
+      }
+    }
+    g.putImageData(img,0,0);
+    for(let x=0;x<W;x++) px(g,x,lakeTop,P.waterHi);
+    g.fillStyle="rgba(255,244,228,.35)";
+    for(let i=0;i<W/30;i++){const y=lakeTop+3+(R()*(lakeBot-lakeTop-5)|0), x=R()*W|0; g.fillRect(x,y,4+(R()*14|0),1)}
+
+    // meadow
+    for(let x=0;x<W;x++){
+      const top=Math.round(lakeBot-2-n3(x/30)*5);
+      for(let y=top;y<H;y++){
+        let c=y<top+2?P.grassHi:P.grass;
+        if(y>H-14) c=mix(c,P.grassDk,.5);
+        px(g,x,y,c);
+      }
+    }
+    for(let i=0;i<W*.14;i++){
+      const x=R()*W|0,y=lakeBot+(R()*(H-lakeBot)|0);
+      const c=[hex("#e59a8a"),hex("#fff3dc"),hex("#f0b47a")][R()*3|0];
+      px(g,x,y,c); if(R()<.3) px(g,x,y-1,P.grassHi);
+    }
+    for(let i=0;i<1;i++){const x=W*.3+R()*W*.6|0,y=H-6-(R()*14|0);
+      g.fillStyle=css(hex("#b0907a"));g.fillRect(x,y,6,3);g.fillStyle=css(hex("#c7a98f"));g.fillRect(x+1,y-1,4,1)}
+
+    // framing tree, left edge
+    const showTree=W>=300;
+    const tx=Math.round(W*.045), tb=H, tt=Math.round(H*.18);
+    if(showTree) for(let y=tt;y<tb;y++){const w=y>H-10?5+((H-10-y)/-2|0):3; for(let dx=-w;dx<=w;dx++){let c=dx<-1?P.barkHi:P.bark; if(dx===w||((y*3+dx)%17===0)) c=hex("#47301f"); px(g,tx+dx,y,c)}}
+    if(showTree) for(let i=0;i<4;i++){const by=tt+12+i*14,dir=i%2?1:-1; for(let k=0;k<14;k++) px(g,tx+dir*k,by-(k>>1),P.bark)}
+    const blobs=[]; for(let i=0;i<10;i++) blobs.push([tx-24+R()*60,tt-10+R()*42,8+R()*12]);
+    treeBox={x0:0,x1:tx+40,y0:Math.max(0,tt-22),y1:tt+40};
+    if(!showTree) treeBox={x0:0,x1:W*.4,y0:-6,y1:0};
+    if(showTree) for(const [bx,by,r] of blobs){
+      for(let y=Math.floor(by-r);y<by+r;y++)for(let x=Math.floor(bx-r);x<bx+r;x++){
+        const dd=((x-bx)**2+(y-by)**2)/(r*r); if(dd>1||x<0||y<0) continue;
+        const lit=(x-bx)+(y-by)<-r*.3; let c=lit?P.leafHi:(dd>.7?P.leafDk:P.leaf);
+        px(g,x,y,c);
+      }
+    }
+
+    /* clouds */
+    clouds=[]; const C=rng(99);
+    const n=Math.max(3,Math.round(W/110));
+    for(let i=0;i<n;i++) clouds.push(makeCloud(C, (i/n)*W*1.2, 6+C()*horizon*.42, .5+C()*.9, .02+C()*.035));
+    leaves=[]; birds=[];
+  }
+
+  function makeCloud(R,x,y,scale,speed){
+    const w=Math.round(70*scale+24), h=Math.round(34*scale+14);
+    const c=makeCanvas(w,h), g=c.getContext("2d");
+    const baseY=h-3, puffs=[];
+    const cnt=7+(R()*5|0);
+    for(let i=0;i<cnt;i++){
+      const t=i/(cnt-1), px_=w*(.12+t*.76)+(R()-.5)*w*.08;
+      const bump=Math.sin(t*Math.PI); const r=h*(.18+bump*.30+R()*.08);
+      puffs.push([px_, baseY-r*.55-bump*h*.18, r]);
+    }
+    for(let i=0;i<3;i++){const px_=w*(.3+R()*.4), r=h*(.25+R()*.12); puffs.push([px_, baseY-h*.42-R()*h*.12, r])}
+    const cream=hex("#fffaf0"), wht=hex("#fff3e2"), pink=hex("#f9dccb"), lav=hex("#efc6bf"), lav2=hex("#dfb3b4");
+    for(let yy=0;yy<h;yy++)for(let xx=0;xx<w;xx++){
+      if(yy>baseY) continue;
+      let best=-1, lit=0;
+      for(const [cx,cy,r] of puffs){const dx=xx-cx, dy=yy-cy, dd=(dx*dx+dy*dy)/(r*r); if(dd<=1){const l=(-dy/r)*.6+(dx/r)*.25+.45; if(l>lit) lit=l; best=1}}
+      if(best<0) continue;
+      const v=lit*.75+(1-yy/h)*.45 - (yy>baseY-3?.25:0);
+      const th=BAYER[yy&3][xx&3]*.08;
+      const col= v>.98+th?cream: v>.62+th?wht: v>.44+th?pink: v>.30+th?lav: lav2;
+      px(g,xx,yy,col);
+    }
+    return {img:c,x,y,speed};
+  }
+
+  let last=0, frame=0;
+  function draw(ts){
+    frame++;
+    ctx.drawImage(sky,0,0);
+    for(const c of clouds){
+      if(!reduce) c.x+=c.speed*(ts-last>0&&ts-last<200?(ts-last)/16:1);
+      if(c.x>W+10) c.x=-c.img.width-10;
+      ctx.drawImage(c.img,Math.round(c.x),Math.round(c.y));
+    }
+    ctx.drawImage(land,0,0);
+    if(!reduce){
+      // water sparkle
+      ctx.fillStyle="rgba(255,248,236,.7)";
+      for(let i=0;i<Math.round(W/80);i++){
+        const y=lakeTop+2+((i*37+frame)%(lakeBot-lakeTop-3)); const x=(i*97+frame*0.7)%W;
+        if(((frame>>3)+i)%3===0) ctx.fillRect(x|0,y,3+(i%3),1);
+      }
+      // leaves and petals
+      if(leaves.length<Math.round(W/45)&&Math.random()<.07){
+        const fromTree=Math.random()<.6;
+        leaves.push({x:fromTree?treeBox.x0+Math.random()*treeBox.x1:Math.random()*W*.4,y:fromTree?treeBox.y0+Math.random()*(treeBox.y1-treeBox.y0):-4,
+          vx:.18+Math.random()*.3,vy:.12+Math.random()*.18,ph:Math.random()*6,
+          c:[hex("#e8a55a"),hex("#d97d5b"),hex("#f3c97a"),hex("#c9a2a6")][Math.random()*4|0]});
+      }
+      for(const l of leaves){
+        l.ph+=.08; l.x+=l.vx+Math.sin(l.ph)*.25; l.y+=l.vy+Math.cos(l.ph*.7)*.08;
+        ctx.fillStyle=css(l.c); ctx.fillRect(l.x|0,l.y|0,2,1); if(Math.sin(l.ph)>0) ctx.fillRect((l.x|0)+1,(l.y|0)+1,1,1);
+      }
+      leaves=leaves.filter(l=>l.x<W+4&&l.y<H+4);
+      // birds
+      if(birds.length<2&&Math.random()<.004) birds.push({x:-6,y:20+Math.random()*horizon*.4,v:.35+Math.random()*.25,f:0});
+      ctx.fillStyle="#7a5a5e";
+      for(const b of birds){
+        b.x+=b.v; b.f++; const up=(b.f>>3)&1, x=b.x|0, y=b.y|0;
+        ctx.fillRect(x,y,1,1); ctx.fillRect(x-1,y-(up?1:0),1,1); ctx.fillRect(x+1,y-(up?1:0),1,1);
+        ctx.fillRect(x-2,y-(up?2:-1),1,1); ctx.fillRect(x+2,y-(up?2:-1),1,1);
+      }
+      birds=birds.filter(b=>b.x<W+6);
+    }
+    last=ts;
+  }
+
+  let acc=0, prev=0, raf;
+  function loop(ts){
+    raf=requestAnimationFrame(loop);
+    if(document.hidden) return;
+    acc+=ts-prev; prev=ts;
+    if(acc<66) return; acc=0;   // ~15 fps for a pixel-art feel
+    draw(ts);
+  }
+  build(); draw(0);
+  if(!reduce) raf=requestAnimationFrame(loop);
+  let rt; addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{build();draw(0)},150)});
+})();
+</script>
+</body>
+</html>
