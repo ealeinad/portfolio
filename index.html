@@ -233,6 +233,19 @@ a{color:var(--clay)}
 .appsw:not([hidden]){animation:pop .2s ease-out}
 .app.launch{background:linear-gradient(180deg,#ffffff,#eef0f4)!important;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06),inset 0 -3px 0 rgba(0,0,0,.05)}
 .app.launch svg{width:34px;height:34px}
+/* group labels */
+.glabel{position:absolute;transform:translateX(-50%);z-index:3;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;padding:3px 10px;border-radius:99px;background:rgba(255,252,247,.82);color:#2f6fc0;box-shadow:0 1px 4px rgba(40,30,20,.12);pointer-events:none}
+.glabel.warm{color:var(--clay)}
+/* day / night */
+.theme-btn{width:26px;height:22px;border-radius:99px;display:grid;place-items:center;margin-right:6px;color:var(--ink)}
+.theme-btn:hover{background:rgba(60,40,20,.08)}
+.theme-btn svg{width:15px;height:15px}
+body.night .hero h1{color:#fff4e6;text-shadow:0 0 18px rgba(20,18,50,.9),0 0 40px rgba(20,18,50,.7)}
+body.night .hero .hi{color:#ffb68a;text-shadow:0 0 12px rgba(20,18,50,.95)}
+body.night .glabel{background:rgba(30,28,60,.78);color:#a9c8ff}
+body.night .glabel.warm{color:#ffb68a}
+body.night .lbl{background:rgba(255,252,247,.9)}
+@media (max-width:720px){.glabel{display:none}}
 /* ---------- dock ---------- */
 .dock{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:900;display:flex;align-items:flex-end;gap:8px;padding:8px 10px;border-radius:22px;background:rgba(255,252,247,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 12px 34px rgba(60,30,10,.16),0 0 0 1px rgba(60,40,20,.08)}
 .app{position:relative;width:50px;height:50px;border-radius:13px;display:grid;place-items:center;background:var(--c);color:#fff;font-size:22px;transition:transform .18s cubic-bezier(.3,1.6,.5,1);box-shadow:inset 0 -3px 0 rgba(0,0,0,.08)}
@@ -278,6 +291,7 @@ a{color:var(--clay)}
     <button class="tb-link hide-xs" data-open="contact" data-i18n="contact">Contact</button>
   </div>
   <div class="side">
+    <button class="theme-btn" id="themeBtn" aria-label="Switch to night" title="Day / night"></button>
     <div class="lang" role="group" aria-label="Language / Idioma">
       <button data-lang="en" aria-pressed="true">EN</button><button data-lang="es" aria-pressed="false">ES</button>
     </div>
@@ -304,6 +318,8 @@ a{color:var(--clay)}
     <p class="role" id="heroRole"></p>
   </div>
 
+  <span class="glabel" data-i18n="uxGroup" style="left:87%;top:1.6%">UX/UI & Web</span>
+  <span class="glabel warm" data-i18n="brandFolder" style="left:87%;top:47.6%">Branding & Marketing</span>
   <div id="icons"></div>
   <section class="appsw" id="appsw" data-drag aria-labelledby="appsTitle" hidden>
     <h4 id="appsTitle" data-i18n="appsTitle">Apps I use most</h4>
@@ -367,7 +383,7 @@ const ME_EN = {
         { src: "img/evc-guide-05.webp", alt: "Brand guide UI components page with buttons", cap: "UI components", span: 2, doc: true },
         { src: "img/evc-guide-09.webp", alt: "Brand guide homepage structure page", cap: "Homepage breakdown", span: 2, doc: true }
       ],
-      facts: { Role: "UX/UI Designer, design system author", Scope: "Design system, layouts, user flows, content structure", Sites: "entravision.com · /us-media · investor.entravision.com", Typography: "Poppins, Open Sans", Tools: "WordPress, Divi, Illustrator, Photoshop" } },
+      facts: { Role: "UX/UI Designer, design system author", Scope: "Design system, layouts, user flows, content structure", Sites: "entravision.com · /us-media · investor.entravision.com", Typography: "Poppins, Open Sans", Tools: "Figma, WordPress, Illustrator, Photoshop" } },
     { id: "p2", name: "Noticias & El Botón", tag: "UX/UI · Front-end · Branding · 2025", color: "#a3161a",
       logo: "Noticias",
       cover: "img/noticias-hand.webp", coverAlt: "A Noticias homepage on a phone",
@@ -571,7 +587,7 @@ const ME_ES = {
         { alt: "Página de componentes de UI con botones", cap: "Componentes de UI" },
         { alt: "Página de estructura de la página de inicio", cap: "Desglose de la página de inicio" }
       ],
-      facts: { "Rol": "Diseñadora UX/UI, autora del sistema de diseño", "Alcance": "Sistema de diseño, layouts, flujos de usuario, estructura de contenido", "Sitios": "entravision.com · /us-media · investor.entravision.com", "Tipografía": "Poppins, Open Sans", "Herramientas": "WordPress, Divi, Illustrator, Photoshop" } },
+      facts: { "Rol": "Diseñadora UX/UI, autora del sistema de diseño", "Alcance": "Sistema de diseño, layouts, flujos de usuario, estructura de contenido", "Sitios": "entravision.com · /us-media · investor.entravision.com", "Tipografía": "Poppins, Open Sans", "Herramientas": "Figma, WordPress, Illustrator, Photoshop" } },
     { tag: "UX/UI · Front-end · Branding · 2025",
       coverAlt: "Una página de inicio de Noticias en un celular",
       summary: "Diseño y front-end de Noticias, una plataforma de noticias en español para audiencias hispanas en EE. UU. Tiene su sede en Palm Springs y ediciones locales en más de 20 ciudades, cada una con el nombre de su mercado después de “Noticias”.",
@@ -743,7 +759,7 @@ const T = {
     close:"Close", expand:"Expand", dlResume:"Download my resume ↗",
     lockTitle:"Gallery available on request", lockText:"This project includes internal company work, so the gallery and project files are private. Request access and I'll send you a code.",
     reqBtn:"Request access", orWrite:"Or write to", codePh:"Access code", unlock:"Unlock", badCode:"That code didn't work. Please check it and try again.",
-    reqSubject:n=>`Portfolio access request: ${n}`, reqBody:n=>`Hi Daniela,\n\nI'd like to see the full ${n} gallery in your portfolio.\n\nName:\nCompany:\n`, appsTitle:"Apps I use most", appsTip:"Apps", brandFolder:"Branding & Marketing", uxGroup:"UX/UI & Web", otherAreas:"Other areas", brandIntro:"Beyond UX/UI, I've designed logos, brand identities, nationwide and year-round campaigns, print pieces and social media content.", langLabel:"Language", locale:"en-US" },
+    reqSubject:n=>`Portfolio access request: ${n}`, reqBody:n=>`Hi Daniela,\n\nI'd like to see the full ${n} gallery in your portfolio.\n\nName:\nCompany:\n`, appsTitle:"Apps I use most", appsTip:"Apps", toNight:"Switch to night", toDay:"Switch to day", brandFolder:"Branding & Marketing", uxGroup:"UX/UI & Web", otherAreas:"Other areas", brandIntro:"Beyond UX/UI, I've designed logos, brand identities, nationwide and year-round campaigns, print pieces and social media content.", langLabel:"Language", locale:"en-US" },
   es: { work:"Trabajo", resume:"CV", contact:"Contacto", hi:"hola, soy", pol1:"¡hola!", pol2:"en el estudio",
     pol1Alt:"Retrato de Daniela Valdez", pol2Alt:"Daniela sonriendo frente a un micrófono en un estudio de radio",
     iconAbout:"Sobre mí", iconResume:"CV.pdf", iconBooks:"Libros favoritos.txt", iconContact:"Escríbeme",
@@ -762,7 +778,7 @@ const T = {
     close:"Cerrar", expand:"Ampliar", dlResume:"Descargar mi CV ↗",
     lockTitle:"Galería disponible bajo solicitud", lockText:"Este proyecto incluye trabajo interno de la empresa, así que la galería y los archivos del proyecto son privados. Solicita acceso y te enviaré un código.",
     reqBtn:"Solicitar acceso", orWrite:"O escribe a", codePh:"Código de acceso", unlock:"Desbloquear", badCode:"Ese código no funcionó. Revísalo e inténtalo de nuevo.",
-    reqSubject:n=>`Solicitud de acceso al portafolio: ${n}`, reqBody:n=>`Hola Daniela,\n\nMe gustaría ver la galería completa de ${n} en tu portafolio.\n\nNombre:\nEmpresa:\n`, appsTitle:"Las apps que más uso", appsTip:"Apps", brandFolder:"Branding y Marketing", uxGroup:"UX/UI y Web", otherAreas:"Otras áreas", brandIntro:"Además de UX/UI, he diseñado logotipos, identidades de marca, campañas nacionales y anuales, impresos y contenido para redes sociales.", langLabel:"Idioma", locale:"es-MX" }
+    reqSubject:n=>`Solicitud de acceso al portafolio: ${n}`, reqBody:n=>`Hola Daniela,\n\nMe gustaría ver la galería completa de ${n} en tu portafolio.\n\nNombre:\nEmpresa:\n`, appsTitle:"Las apps que más uso", appsTip:"Apps", toNight:"Cambiar a noche", toDay:"Cambiar a día", brandFolder:"Branding y Marketing", uxGroup:"UX/UI y Web", otherAreas:"Otras áreas", brandIntro:"Además de UX/UI, he diseñado logotipos, identidades de marca, campañas nacionales y anuales, impresos y contenido para redes sociales.", langLabel:"Idioma", locale:"es-MX" }
 };
 
 /* ---------- language ---------- */
@@ -825,14 +841,14 @@ const finderSVG = (id,warm) => `<svg viewBox="0 0 64 52" class="ico finder${warm
 const pad = i => String(i+1).padStart(2,"0");
 const UX_COUNT = 4;
 const ICONS = [
-  { id:"about",   label:()=>t("iconAbout"),   svg:folderSVG("#f0b89c"), x:10, y:52 },
-  { id:"resume",  label:()=>t("iconResume"),  svg:docSVG("pdf"),        x:24, y:40 },
-  { id:"books",   label:()=>t("iconBooks"),   svg:docSVG("txt"),        x:23, y:62 },
-  { id:"contact", label:()=>t("iconContact"), svg:folderSVG("#b5c9ae"), x:11, y:78 },
+  { id:"about",   label:()=>t("iconAbout"),   svg:folderSVG("#f0b89c"), x:7, y:44 },
+  { id:"resume",  label:()=>t("iconResume"),  svg:docSVG("pdf"),        x:17, y:44 },
+  { id:"books",   label:()=>t("iconBooks"),   svg:docSVG("txt"),        x:7, y:63 },
+  { id:"contact", label:()=>t("iconContact"), svg:folderSVG("#b5c9ae"), x:17, y:63 },
   ...ME_EN.projects.slice(0,UX_COUNT).map((p,i)=>({ id:p.id, proj:true, label:()=>`${pad(i)} — ${ME.projects[i].name}`, svg:finderSVG(p.id),
-    x:[79,90,77,90][i], y:[10,26,44,60][i] })),
-  { id:"p4", proj:true, warm:true, label:()=>{const i=ME.projects.findIndex(p=>p.id==="p4");return `${pad(i)} — ${ME.projects[i].name}`}, svg:finderSVG("p4",true), x:66, y:60 },
-  { id:"branding", proj:true, warm:true, label:()=>t("brandFolder"), svg:finderSVG("brand",true), x:78, y:74 }
+    x:[82,92,82,92][i], y:[7,7,26,26][i] })),
+  { id:"p4", proj:true, warm:true, label:()=>{const i=ME.projects.findIndex(p=>p.id==="p4");return `${pad(i)} — ${ME.projects[i].name}`}, svg:finderSVG("p4",true), x:82, y:53 },
+  { id:"branding", proj:true, warm:true, label:()=>t("brandFolder"), svg:finderSVG("brand",true), x:92, y:53 }
 ];
 
 /* ---------- windows ---------- */
@@ -1067,6 +1083,26 @@ function tick(){const d=new Date(), loc=t("locale");
   document.getElementById("date").textContent=d.toLocaleDateString(loc, {weekday:"short",month:"short",day:"numeric"});}
 renderStatic(); setInterval(tick,15000);
 
+/* ---------- day / night ---------- */
+(function(){
+  const btn=document.getElementById("themeBtn");
+  const SUN='<svg viewBox="0 0 16 16" fill="currentColor"><rect x="7" y="0" width="2" height="3"/><rect x="7" y="13" width="2" height="3"/><rect x="0" y="7" width="3" height="2"/><rect x="13" y="7" width="3" height="2"/><rect x="2" y="2" width="2" height="2"/><rect x="12" y="2" width="2" height="2"/><rect x="2" y="12" width="2" height="2"/><rect x="12" y="12" width="2" height="2"/><rect x="5" y="4" width="6" height="8"/><rect x="4" y="5" width="8" height="6"/></svg>';
+  const MOON='<svg viewBox="0 0 16 16" fill="currentColor"><rect x="5" y="1" width="5" height="2"/><rect x="3" y="3" width="4" height="2"/><rect x="2" y="5" width="4" height="6"/><rect x="3" y="11" width="4" height="2"/><rect x="5" y="13" width="7" height="2"/><rect x="7" y="11" width="7" height="2"/><rect x="12" y="9" width="2" height="2"/></svg>';
+  let manual=null; try{ const v=localStorage.getItem("pf-theme"); if(v==="day"||v==="night") manual=v; }catch(_){}
+  const isNightNow=()=>{const h=new Date().getHours(); return h>=19||h<7};
+  function apply(){
+    const night = manual ? manual==="night" : isNightNow();
+    const was=document.body.classList.contains("night");
+    document.body.classList.toggle("night",night);
+    btn.innerHTML = night?SUN:MOON;
+    const lbl = night?t("toDay"):t("toNight"); btn.setAttribute("aria-label",lbl); btn.title=lbl;
+    if(was!==night && window.setSceneNight) window.setSceneNight(night);
+  }
+  btn.addEventListener("click",()=>{ manual=document.body.classList.contains("night")?"day":"night"; try{localStorage.setItem("pf-theme",manual)}catch(_){}; apply(); });
+  document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>setTimeout(apply,0)));
+  apply(); setInterval(()=>{ if(!manual) apply(); },60000);
+})();
+
 /* ---------- pixel-art landscape (original, drawn in code) ---------- */
 (function(){
   const cv=document.getElementById("scene"); if(!cv) return;
@@ -1081,7 +1117,7 @@ renderStatic(); setInterval(tick,15000);
   function noise1(seed){const r=rng(seed),v=[];for(let i=0;i<64;i++)v.push(r());return x=>{const i=Math.floor(x),f=x-i,a=v[((i%64)+64)%64],b=v[(((i+1)%64)+64)%64],s=f*f*(3-2*f);return a+(b-a)*s}}
 
   let sky, land, clouds=[], leaves=[], birds=[], horizon, lakeTop, lakeBot, treeBox;
-  const P={ skyTop:hex("#c9a7c4"), skyMid:hex("#f2c6b4"), skyLow:hex("#fbdcb8"), skyGlow:hex("#ffe9c9"),
+  const DAYP={ skyTop:hex("#c9a7c4"), skyMid:hex("#f2c6b4"), skyLow:hex("#fbdcb8"), skyGlow:hex("#ffe9c9"),
     far:hex("#d9b3b0"), farHi:hex("#e7c6bf"), snow:hex("#fff4e6"),
     peak:hex("#b98f97"), peakHi:hex("#d6aeaa"), peakDk:hex("#a47f88"),
     hill:hex("#b7a37a"), hillHi:hex("#cdb98a"),
@@ -1089,6 +1125,18 @@ renderStatic(); setInterval(tick,15000);
     grass:hex("#dcc28a"), grassHi:hex("#e9d39c"), grassDk:hex("#cdb27a"),
     water:hex("#e9c3b1"), waterHi:hex("#fff1df"),
     bark:hex("#7a5641"), barkHi:hex("#946a50"), leaf:hex("#a9a564"), leafHi:hex("#cfc27c"), leafDk:hex("#8c8a55") };
+  const NIGHTP={ skyTop:hex("#0f1030"), skyMid:hex("#22245a"), skyLow:hex("#3e3577"), skyGlow:hex("#6b4c86"),
+    far:hex("#2b2e5c"), farHi:hex("#3a3e74"), snow:hex("#9aa2d8"),
+    peak:hex("#22265a"), peakHi:hex("#323a76"), peakDk:hex("#1b1f4a"),
+    hill:hex("#1c2d48"), hillHi:hex("#28405e"),
+    pine:hex("#13263a"), pineHi:hex("#1d3550"), pineDk:hex("#0e1c2c"),
+    grass:hex("#1e3446"), grassHi:hex("#2b4a5c"), grassDk:hex("#15263a"),
+    water:hex("#262f6a"), waterHi:hex("#8f9be0"),
+    bark:hex("#2a2236"), barkHi:hex("#3a3050"), leaf:hex("#1f3a4a"), leafHi:hex("#2d5466"), leafDk:hex("#162a38"),
+    rock:hex("#262a52"), rockHi:hex("#3c4380"), rockDk:hex("#1a1c3c"),
+    wall:hex("#3a3f78"), wallHi:hex("#5259a0"), wallDk:hex("#2a2e5e"),
+    roof:hex("#4a2f7a"), roofHi:hex("#6e4aa8"), win:hex("#ffd27a"), winHi:hex("#fff1b8") };
+  let NIGHT=false, P=DAYP, stars=[], moon=null, castleWins=[], flies=[];
 
   function makeCanvas(w,h){const c=document.createElement("canvas");c.width=w;c.height=h;return c}
   function px(c,x,y,col){c.fillStyle=css(col);c.fillRect(x|0,y|0,1,1)}
@@ -1098,7 +1146,7 @@ renderStatic(); setInterval(tick,15000);
     W=Math.round(Math.min(560,Math.max(60,H*ratio)));
     cv.width=W; cv.height=H;
     horizon=Math.round(H*.70); lakeTop=horizon; lakeBot=Math.round(H*.84);
-    const R=rng(7);
+    const R=rng(7); P=NIGHT?NIGHTP:DAYP; stars=[]; castleWins=[]; flies=[]; moon=null;
 
     /* sky with dithered bands */
     sky=makeCanvas(W,H); const s=sky.getContext("2d");
@@ -1113,8 +1161,27 @@ renderStatic(); setInterval(tick,15000);
         px(s,x,y,mix(c0,c1,Math.min(1,k)));
       }
     }
+    if(!NIGHT){
     for(let i=0;i<4;i++){const x=R()*W|0,y=R()*horizon*.45|0;px(s,x,y,hex("#fff6ea"))}
     for(let i=0;i<3;i++){const y=(horizon*.35+R()*horizon*.45)|0,x=R()*W|0,l=8+R()*30|0;s.fillStyle="rgba(255,255,255,.22)";s.fillRect(x,y,l,1)}
+    } else {
+      const SR=rng(21);
+      for(let i=0;i<W*.45;i++){
+        const x=SR()*W|0, y=SR()*(horizon-30)|0, b=.35+SR()*.65;
+        const c=[hex("#ffffff"),hex("#fff2c8"),hex("#cfdcff")][SR()*3|0];
+        s.globalAlpha=b*(1-y/(horizon*1.1)); px(s,x,y,c); s.globalAlpha=1;
+        if(SR()<.12) stars.push({x,y,c,ph:SR()*6.28,sp:.04+SR()*.08});
+      }
+      for(let i=0;i<5;i++){const x=SR()*W|0,y=8+SR()*horizon*.4|0;s.fillStyle="#fffbe6";s.fillRect(x,y,1,1);s.globalAlpha=.55;s.fillRect(x-1,y,1,1);s.fillRect(x+1,y,1,1);s.fillRect(x,y-1,1,1);s.fillRect(x,y+1,1,1);s.globalAlpha=1}
+      // moon
+      const mx=Math.round(W*.36), my=20, mr=9; moon={x:mx,y:my,r:mr};
+      for(let r=mr+12;r>mr;r-=3){s.globalAlpha=.07;s.fillStyle="#d8dcff";s.beginPath();s.arc(mx+.5,my+.5,r,0,6.29);s.fill()}
+      s.globalAlpha=1;
+      for(let y=-mr;y<=mr;y++)for(let x=-mr;x<=mr;x++){const d=(x*x+y*y)/(mr*mr); if(d>1) continue;
+        let c=hex("#fff6dc"); if(x>mr*.35&&d>.45) c=hex("#e9dfc4"); px(s,mx+x,my+y,c)}
+      for(const [cx,cy,cr] of [[-3,-2,2],[2,3,2.4],[-1,5,1.2],[4,-4,1.3]])
+        for(let y=-3;y<=3;y++)for(let x=-3;x<=3;x++) if(x*x+y*y<=cr*cr) px(s,mx+cx+x,my+cy+y,hex("#e3d6b6"));
+    }
 
     /* land */
     land=makeCanvas(W,H); const g=land.getContext("2d");
@@ -1173,6 +1240,7 @@ renderStatic(); setInterval(tick,15000);
       for(let y=by;y<horizon;y++) px(g,cx,y,P.pineDk);
     }
     for(let x=0;x<W;x++) for(let y=horizon-2;y<horizon;y++) px(g,x,y,P.pineDk);
+    if(NIGHT) drawCastle(g, Math.round(W*.705), horizon-12, R, n3);
 
     // lake: reflection of sky+land
     const tmp=makeCanvas(W,H),t=tmp.getContext("2d"); t.drawImage(sky,0,0); t.drawImage(land,0,0);
@@ -1188,9 +1256,10 @@ renderStatic(); setInterval(tick,15000);
     }
     g.putImageData(img,0,0);
     for(let x=0;x<W;x++) px(g,x,lakeTop,P.waterHi);
-    g.fillStyle="rgba(255,244,228,.35)";
+    g.fillStyle=NIGHT?"rgba(170,185,255,.22)":"rgba(255,244,228,.35)";
     for(let i=0;i<W/30;i++){const y=lakeTop+3+(R()*(lakeBot-lakeTop-5)|0), x=R()*W|0; g.fillRect(x,y,4+(R()*14|0),1)}
 
+    if(NIGHT&&moon){ const MR=rng(5); for(let y=lakeTop+2;y<lakeBot-1;y+=2){ const w=3+((y-lakeTop)*.45|0); const off=(MR()*4|0)-2; g.globalAlpha=.6-(y-lakeTop)/(lakeBot-lakeTop)*.4; g.fillStyle="#fff3d0"; g.fillRect(moon.x-w/2+off|0,y,Math.max(2,w*(.5+MR()*.6))|0,1);} g.globalAlpha=1; }
     // meadow
     for(let x=0;x<W;x++){
       const top=Math.round(lakeBot-2-n3(x/30)*5);
@@ -1202,16 +1271,16 @@ renderStatic(); setInterval(tick,15000);
     }
     for(let i=0;i<W*.14;i++){
       const x=R()*W|0,y=lakeBot+(R()*(H-lakeBot)|0);
-      const c=[hex("#e59a8a"),hex("#fff3dc"),hex("#f0b47a")][R()*3|0];
+      const c=NIGHT?[hex("#7b6aa8"),hex("#b9b6e0"),hex("#5d7aa0")][R()*3|0]:[hex("#e59a8a"),hex("#fff3dc"),hex("#f0b47a")][R()*3|0];
       px(g,x,y,c); if(R()<.3) px(g,x,y-1,P.grassHi);
     }
     for(let i=0;i<1;i++){const x=W*.3+R()*W*.6|0,y=H-6-(R()*14|0);
-      g.fillStyle=css(hex("#b0907a"));g.fillRect(x,y,6,3);g.fillStyle=css(hex("#c7a98f"));g.fillRect(x+1,y-1,4,1)}
+      g.fillStyle=css(hex(NIGHT?"#2c3456":"#b0907a"));g.fillRect(x,y,6,3);g.fillStyle=css(hex(NIGHT?"#3c4672":"#c7a98f"));g.fillRect(x+1,y-1,4,1)}
 
     // framing tree, left edge
     const showTree=W>=300;
     const tx=Math.round(W*.045), tb=H, tt=Math.round(H*.18);
-    if(showTree) for(let y=tt;y<tb;y++){const w=y>H-10?5+((H-10-y)/-2|0):3; for(let dx=-w;dx<=w;dx++){let c=dx<-1?P.barkHi:P.bark; if(dx===w||((y*3+dx)%17===0)) c=hex("#47301f"); px(g,tx+dx,y,c)}}
+    if(showTree) for(let y=tt;y<tb;y++){const w=y>H-10?5+((H-10-y)/-2|0):3; for(let dx=-w;dx<=w;dx++){let c=dx<-1?P.barkHi:P.bark; if(dx===w||((y*3+dx)%17===0)) c=hex(NIGHT?"#1c1626":"#47301f"); px(g,tx+dx,y,c)}}
     if(showTree) for(let i=0;i<4;i++){const by=tt+12+i*14,dir=i%2?1:-1; for(let k=0;k<14;k++) px(g,tx+dir*k,by-(k>>1),P.bark)}
     const blobs=[]; for(let i=0;i<10;i++) blobs.push([tx-24+R()*60,tt-10+R()*42,8+R()*12]);
     treeBox={x0:0,x1:tx+40,y0:Math.max(0,tt-22),y1:tt+40};
@@ -1226,9 +1295,32 @@ renderStatic(); setInterval(tick,15000);
 
     /* clouds */
     clouds=[]; const C=rng(99);
-    const n=Math.max(3,Math.round(W/110));
+    const n=Math.max(NIGHT?2:3,Math.round(W/(NIGHT?150:110)));
     for(let i=0;i<n;i++) clouds.push(makeCloud(C, (i/n)*W*1.2, 6+C()*horizon*.42, .5+C()*.9, .02+C()*.035));
     leaves=[]; birds=[];
+  }
+
+  function drawCastle(g,cx,gy,R,nz){
+    const rect=(x0,y0,x1,y1,litEdge)=>{for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++){let c=P.wall; if(x<x0+2) c=P.wallHi; else if(x>x1-3) c=P.wallDk; if(((x*7+y*13)%23)===0) c=P.wallDk; px(g,x,y,c)}};
+    const crenel=(x0,x1,y)=>{for(let x=x0;x<x1;x++) if(((x-x0)%3)!==2){px(g,x,y-1,x<x0+2?P.wallHi:P.wall);px(g,x,y-2,x<x0+2?P.wallHi:P.wall)}};
+    const roof=(x0,x1,yb,h)=>{const m=(x0+x1)/2; for(let j=0;j<h;j++){const half=((x1-x0)/2+1)*(1-j/h); for(let x=Math.round(m-half);x<=Math.round(m+half);x++) px(g,x,yb-j,x<m?P.roofHi:P.roof)} px(g,Math.round(m),yb-h,P.roofHi)};
+    const win=(x,y,w,h)=>{for(let yy=y;yy<y+h;yy++)for(let xx=x;xx<x+w;xx++) px(g,xx,yy,yy===y?P.winHi:P.win); castleWins.push({x,y,w,h})};
+    // cliff
+    for(let x=cx-24;x<=cx+24;x++){const dx=Math.abs(x-cx); const top=Math.round(gy+Math.max(0,dx-14)*1.5+nz(x/3)*2);
+      for(let y=top;y<horizon;y++){let c=x<cx-6?P.rockHi:P.rock; if(((x*5+y*3)%11)===0||y>horizon-4) c=P.rockDk; px(g,x,y,c)}}
+    // walls, towers, keep
+    rect(cx-14,gy-8,cx+14,gy); crenel(cx-14,cx+14,gy-8);
+    rect(cx-18,gy-18,cx-11,gy); rect(cx+11,gy-18,cx+18,gy);
+    roof(cx-19,cx-10,gy-19,9); roof(cx+10,cx+19,gy-19,9);
+    rect(cx-7,gy-21,cx+7,gy-8); crenel(cx-7,cx+7,gy-21);
+    rect(cx-3,gy-31,cx+3,gy-21); roof(cx-4,cx+4,gy-32,11);
+    for(let y=gy-48;y<gy-43;y++) px(g,cx,y,P.wallHi);
+    for(let y=0;y<2;y++)for(let x=1;x<5-y;x++) px(g,cx+x,gy-48+y,hex("#e0607e"));
+    win(cx-15,gy-14,1,2); win(cx+14,gy-14,1,2); win(cx-4,gy-17,1,2); win(cx+3,gy-17,1,2); win(cx,gy-28,1,2);
+    win(cx-10,gy-5,1,2); win(cx+9,gy-5,1,2);
+    for(let y=gy-4;y<gy;y++)for(let x=cx-2;x<=cx+2;x++){ if(y===gy-4&&Math.abs(x-cx)>1) continue; px(g,x,y,y<gy-3?hex("#1a1630"):hex("#ffb84d"))}
+    // window halos
+    g.globalAlpha=.18; g.fillStyle="#ffcf7a"; for(const w of castleWins) g.fillRect(w.x-1,w.y-1,w.w+2,w.h+2); g.globalAlpha=1;
   }
 
   function makeCloud(R,x,y,scale,speed){
@@ -1242,7 +1334,7 @@ renderStatic(); setInterval(tick,15000);
       puffs.push([px_, baseY-r*.55-bump*h*.18, r]);
     }
     for(let i=0;i<3;i++){const px_=w*(.3+R()*.4), r=h*(.25+R()*.12); puffs.push([px_, baseY-h*.42-R()*h*.12, r])}
-    const cream=hex("#fffaf0"), wht=hex("#fff3e2"), pink=hex("#f9dccb"), lav=hex("#efc6bf"), lav2=hex("#dfb3b4");
+    const cream=hex(NIGHT?"#a9acdf":"#fffaf0"), wht=hex(NIGHT?"#8487c2":"#fff3e2"), pink=hex(NIGHT?"#666aa6":"#f9dccb"), lav=hex(NIGHT?"#50548e":"#efc6bf"), lav2=hex(NIGHT?"#40447a":"#dfb3b4");
     for(let yy=0;yy<h;yy++)for(let xx=0;xx<w;xx++){
       if(yy>baseY) continue;
       let best=-1, lit=0;
@@ -1266,7 +1358,24 @@ renderStatic(); setInterval(tick,15000);
       ctx.drawImage(c.img,Math.round(c.x),Math.round(c.y));
     }
     ctx.drawImage(land,0,0);
-    if(!reduce){
+    if(!reduce&&NIGHT){
+      // twinkling stars
+      for(const st of stars){ st.ph+=st.sp; const a=.25+.75*Math.abs(Math.sin(st.ph)); ctx.globalAlpha=a; ctx.fillStyle=css(st.c); ctx.fillRect(st.x,st.y,1,1); if(a>.92){ctx.globalAlpha=a*.5; ctx.fillRect(st.x-1,st.y,1,1);ctx.fillRect(st.x+1,st.y,1,1);ctx.fillRect(st.x,st.y-1,1,1);ctx.fillRect(st.x,st.y+1,1,1)} }
+      ctx.globalAlpha=1;
+      // flickering castle windows
+      for(const w of castleWins){ if(Math.random()<.03){ ctx.fillStyle="#fff6c8"; ctx.fillRect(w.x,w.y,w.w,w.h);} }
+      // moonlight shimmer on the lake
+      if(moon){ ctx.fillStyle="rgba(255,246,214,.85)"; for(let i=0;i<5;i++){ const y=lakeTop+2+((i*7+frame*.6)%(lakeBot-lakeTop-3))|0; const w=1+((y-lakeTop)*.3|0); if(((frame>>2)+i)%2) ctx.fillRect(moon.x-w+((i*5)%(2*w+1)),y,2,1);} }
+      // fireflies
+      if(flies.length<Math.round(W/28)){ flies.push({x:Math.random()*W,y:lakeBot+Math.random()*(H-lakeBot-4),vx:0,vy:0,ph:Math.random()*6.28}); }
+      for(const f of flies){ f.ph+=.12; f.vx+=(Math.random()-.5)*.08; f.vy+=(Math.random()-.5)*.06; f.vx*=.92; f.vy*=.92; f.x+=f.vx; f.y+=f.vy;
+        if(f.y<lakeBot-14) f.vy+=.05; if(f.y>H-3) f.vy-=.05; if(f.x<0) f.x=W; if(f.x>W) f.x=0;
+        const a=Math.max(0,Math.sin(f.ph)); if(a<.05) continue;
+        ctx.globalAlpha=a*.35; ctx.fillStyle="#e6ff8a"; ctx.fillRect((f.x|0)-1,(f.y|0)-1,3,3);
+        ctx.globalAlpha=a; ctx.fillStyle="#f6ffc0"; ctx.fillRect(f.x|0,f.y|0,1,1); }
+      ctx.globalAlpha=1;
+    }
+    if(!reduce&&!NIGHT){
       // water sparkle
       ctx.fillStyle="rgba(255,248,236,.7)";
       for(let i=0;i<Math.round(W/80);i++){
@@ -1306,6 +1415,8 @@ renderStatic(); setInterval(tick,15000);
     if(acc<66) return; acc=0;   // ~15 fps for a pixel-art feel
     draw(ts);
   }
+  window.setSceneNight=b=>{ NIGHT=!!b; build(); draw(0); };
+  NIGHT=document.body.classList.contains("night");
   build(); draw(0);
   if(!reduce) raf=requestAnimationFrame(loop);
   let rt; addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{build();draw(0)},150)});
